@@ -19,7 +19,18 @@ Descartados:
 - **Taste Skill**: genera webs completas desde cero con scripts de Node y Chrome. No encaja con maquetar en Betheme o WPBakery.
 - **Superpowers**: obliga a planificar antes de cada respuesta, lo que gasta tokens en tareas de diseño. Además choca con Ponytail y se solapa con ECC.
 
-## Instalación en Claude Code
+## Cuenta compartida: cómo se aplica cada perfil
+
+Todos usáis el mismo usuario, así que la cuenta tiene todo instalado. Cada ordenador activa solo lo de su perfil (en Claude Code, sin tocar la cuenta):
+
+```bash
+bash perfiles/aplicar-perfil.sh diseno --dry-run   # muestra lo que haría
+bash perfiles/aplicar-perfil.sh diseno             # lo aplica (diseno | ingenieria | direccion)
+```
+
+En el chat de claude.ai los plugins son de la cuenta: cread un Proyecto por perfil con el `CLAUDE.md` del perfil como instrucciones.
+
+## Instalación en una cuenta nueva (referencia)
 
 Plugins oficiales (`design`, `canva`, `figma`, `frontend-design`, Adobe): instálalos con `/plugin` en Claude Code o desde el apartado de Plugins de claude.ai.
 

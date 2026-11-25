@@ -74,7 +74,7 @@ pre{margin:0;font:13px/1.55 var(--mono);background:var(--bg);border:1px solid va
   <header>
     <div class="eyebrow">Equipo de diseño · 5 personas · 3 perfiles</div>
     <h1 style="margin-top:10px">Perfiles Claude del Estudio</h1>
-    <p class="lead">Qué instalar, qué no y cómo pedir cada tarea, según tu perfil. Activa solo lo de tu perfil: cada plugin y conector que sobra se paga en tokens en cada mensaje.</p>
+    <p class="lead">Qué activar, qué no y cómo pedir cada tarea, según tu perfil. Compartimos un único usuario, así que la cuenta tiene todo instalado; cada ordenador activa solo lo de su perfil con el script <code>aplicar-perfil.sh</code>.</p>
   </header>
 
   <section aria-labelledby="base-h">
@@ -103,7 +103,7 @@ pre{margin:0;font:13px/1.55 var(--mono);background:var(--bg);border:1px solid va
   <section aria-labelledby="tok-h">
     <h2 id="tok-h">Gastar menos tokens</h2>
     <div class="tips">
-      <div class="tip"><b>Solo tu perfil activo</b><p class="note">Cada skill activa añade su descripción a cada mensaje, y cada conector sus herramientas. Pasar de 200 skills a 20 es el mayor ahorro.</p></div>
+      <div class="tip"><b>Solo tu perfil activo</b><p class="note">Cada plugin activo suma tokens a cada sesión. Medido: social-media-skills ~35.500, Adobe ~6.000, wordpress-devkit ~1.400, Canva ~1.000, Superpowers ~850, Ponytail ~640. Compruébalo con <code>claude plugin details &lt;plugin&gt;</code>.</p></div>
       <div class="tip"><b>Una tarea, una conversación</b><p class="note">Escribe <code>/clear</code> al cambiar de tarea. Una conversación larga reenvía todo el historial en cada mensaje.</p></div>
       <div class="tip"><b>Enlace exacto</b><p class="note">Pega el frame de Figma con <code>node-id</code> o el enlace de Canva. "Busca mi diseño" obliga a Claude a explorar.</p></div>
       <div class="tip"><b>Nombra la skill</b><p class="note">"Usa revision-diseno con…" evita que Claude pruebe varias skills hasta dar con la buena.</p></div>
@@ -117,11 +117,11 @@ pre{margin:0;font:13px/1.55 var(--mono);background:var(--bg);border:1px solid va
   <section aria-labelledby="inst-h">
     <h2 id="inst-h">Comandos de instalación en Claude Code</h2>
     <div class="grid2">
-      <div class="box"><h3>Impeccable (todos)</h3><pre>/plugin marketplace add pbakaus/impeccable</pre><p class="note">Después abre <code>/plugin</code> e instala Impeccable. Los diseñadores pueden rechazar el "design hook" que ofrece el instalador.</p></div>
-      <div class="box"><h3>Ponytail (solo Ingeniería)</h3><pre>/plugin marketplace add DietrichGebert/ponytail
-/plugin install ponytail@ponytail</pre></div>
-      <div class="box"><h3>Skills del equipo</h3><p class="note">Están en la carpeta <code>perfiles/skills-equipo/</code> del repositorio. En Claude Code, cópialas a <code>~/.claude/skills/</code>. En claude.ai, súbelas comprimidas en <code>.zip</code> en el apartado de Skills.</p></div>
-      <div class="box"><h3>Perfil del proyecto</h3><p class="note">Copia la carpeta <code>.claude/</code> de tu perfil (<code>perfiles/diseno</code>, <code>ingenieria</code> o <code>direccion</code>) a la raíz de cada proyecto.</p></div>
+      <div class="box"><h3>1. Aplicar el perfil en tu ordenador</h3><pre>bash perfiles/aplicar-perfil.sh diseno --dry-run
+bash perfiles/aplicar-perfil.sh diseno</pre><p class="note">Cambia <code>diseno</code> por <code>ingenieria</code> o <code>direccion</code>. La primera línea solo muestra lo que haría. Activa y desactiva plugins solo en ese ordenador, sin tocar la cuenta, y copia las skills del equipo. Reinicia Claude Code al acabar.</p></div>
+      <div class="box"><h3>2. Perfil del proyecto</h3><p class="note">Copia la carpeta <code>.claude/</code> de tu perfil (<code>perfiles/diseno</code>, <code>ingenieria</code> o <code>direccion</code>) a la raíz de cada proyecto.</p></div>
+      <div class="box"><h3>En el chat de claude.ai</h3><p class="note">Ahí los plugins son de la cuenta y los ve todo el mundo. Cread un Proyecto por perfil y pegad en sus instrucciones el <code>CLAUDE.md</code> del perfil.</p></div>
+      <div class="box"><h3>Ya instalados en la cuenta</h3><p class="note">Impeccable, Ponytail, ECC, Superpowers y Taste ya están. No hace falta instalar nada más: el script decide cuáles se usan en cada ordenador.</p></div>
     </div>
   </section>
 </div>
@@ -132,18 +132,18 @@ const PERFILES = {
     nombre: "Diseño", quien: "3 diseñadores",
     resumen: "Adobe, Canva, Figma, imagen y vídeo con IA, y maquetación en Betheme / WPBakery.",
     instalar: [
-      "Plugins: design, canva, Adobe, figma, frontend-design",
-      "Impeccable",
-      "Skills del equipo: mejorar-prompt-imagen, revision-diseno, wp-betheme-wpbakery",
-      "Conectores: Canva, Figma, Adobe, Higgsfield, Google Drive",
-      "Copiar perfiles/diseno/.claude a cada proyecto",
-      "Desactivar todo lo demás (social-media-skills, marketing, superpowers, ponytail…)"
+      "Ejecutar: bash perfiles/aplicar-perfil.sh diseno",
+      "Comprobar que quedan activos: Design, Figma, Impeccable, Document skills",
+      "Conectores que usarás: Canva, Figma, Adobe, Magnific, Higgsfield, Google Drive",
+      "Reconectar html.to.design (la sesión expiró)",
+      "Copiar perfiles/diseno/.claude a cada proyecto"
     ],
-    noInstalar: ["Ponytail", "Superpowers", "ECC", "social-media-skills", "marketing", "wordpress-devkit"],
-    nota: "Magnific no aparece en el directorio de conectores. Para escalar imágenes, usa el upscale de Higgsfield o de Adobe, o Magnific en su web.",
+    noInstalar: ["Ponytail", "Superpowers", "ECC", "Taste Skill", "Marketing", "Sales", "Human Resources"],
+    nota: "Magnific está conectado: úsalo para escalar y ganar detalle. En producto o texto, con creatividad baja.",
     flujos: [
       ["Prompt para imagen", "mejorar-prompt-imagen → Higgsfield", "Usa mejorar-prompt-imagen: foto de producto de una lámpara de cerámica para banner web 16:9, estilo luz natural"],
-      ["Ajustar una imagen", "Adobe (recorte, fondo, ampliar, retoque) o upscale de Higgsfield", "Quita el fondo de esta foto, amplíala a 2000 px de ancho y déjala en WebP"],
+      ["Ajustar una imagen", "Adobe (recorte, fondo, retoque) y Magnific (escalar)", "Quita el fondo de esta foto con Adobe y escálala con Magnific a 2000 px de ancho, creatividad baja"],
+      ["Web a Figma", "html.to.design", "Importa esta web a Figma para rediseñarla: [URL]"],
       ["Revisar antes de entregar", "revision-diseno", "Usa revision-diseno con este frame: [enlace de Figma con node-id]"],
       ["Variantes para redes", "canva:resize-for-social-media o Adobe social variations", "Crea las versiones 1:1, 4:5 y 9:16 de este diseño de Canva: [enlace]"],
       ["Pasar a WordPress", "wp-betheme-wpbakery", "Usa wp-betheme-wpbakery: pasa la sección hero de [enlace] a WPBakery"],
@@ -155,15 +155,13 @@ const PERFILES = {
     nombre: "Ingeniería", quien: "Diseño + backend + n8n",
     resumen: "Todo lo de Diseño menos Adobe, más backend (Perl, Laravel, PHP/WordPress) y automatizaciones n8n.",
     instalar: [
-      "Plugins: design, canva, figma, frontend-design, wordpress-devkit",
-      "Plugin Samautomation Workflows (n8n)",
-      "Impeccable + skills del equipo",
-      "Ponytail",
+      "Ejecutar: bash perfiles/aplicar-perfil.sh ingenieria",
+      "Comprobar que quedan activos: Design, Figma, Impeccable, Ponytail, WordPress Dev Skills, Claude api",
       "Copiar perfiles/ingenieria/.claude (selección de ECC) a cada proyecto de backend",
-      "Conectores: Canva, Figma, Higgsfield, Google Drive, n8n, GitHub"
+      "Conectores que usarás: Canva, Figma, Magnific, Higgsfield, n8n, GitHub, servidores MCP locales de WordPress"
     ],
-    noInstalar: ["Adobe", "Superpowers", "social-media-skills", "marketing"],
-    nota: "ECC y Ponytail conviven: ECC aporta reglas y skills de backend; Ponytail mantiene los cambios mínimos.",
+    noInstalar: ["ECC completo (se usa la selección)", "Superpowers", "Taste Skill", "Marketing", "Sales", "Human Resources"],
+    nota: "El plugin ECC completo trae 328 skills: el script lo desactiva y usas la selección de 17 por proyecto. Si lo quieres entero, mira antes su peso con claude plugin details.",
     flujos: [
       ["Flujo n8n nuevo", "Samautomation Workflows + conector n8n", "Crea un flujo n8n: cuando llega un formulario de WordPress, guarda el lead en Google Sheets y avisa por email. Comprueba el JSON antes de importarlo"],
       ["Backend Laravel", "ECC: laravel-patterns, laravel-tdd", "Usa laravel-tdd para añadir un endpoint que devuelva los proyectos del cliente, con test"],
@@ -177,19 +175,18 @@ const PERFILES = {
     nombre: "Dirección creativa", quien: "Rubén",
     resumen: "Todo lo de Diseño, más estrategia, marketing, métricas, presentaciones y revisión del trabajo del equipo. Sin backend profundo.",
     instalar: [
-      "Plugins: design, canva, Adobe, figma, frontend-design, marketing",
-      "social-media-skills solo si lleva redes (unas 105 skills: aumenta el consumo)",
-      "Impeccable + skills del equipo",
-      "Conectores: Canva, Figma, Adobe, Higgsfield, Google Drive, Gmail, Google Calendar, Supermetrics",
+      "Ejecutar: bash perfiles/aplicar-perfil.sh direccion",
+      "Comprobar que quedan activos: Design, Figma, Impeccable, Marketing, Document skills",
+      "Conectores que usarás: Canva, Figma, Adobe, Magnific, Higgsfield, Google Drive, Klaviyo, Slack",
       "Copiar perfiles/direccion/.claude a cada proyecto"
     ],
-    noInstalar: ["Ponytail", "Superpowers", "ECC", "wordpress-devkit"],
+    noInstalar: ["Ponytail", "Superpowers", "ECC", "Taste Skill", "WordPress Dev Skills", "Sales", "Human Resources"],
     nota: "Si una tarea necesita backend o un flujo n8n, se anota para el perfil de Ingeniería.",
     flujos: [
       ["Revisar trabajo del equipo", "revision-diseno", "Usa revision-diseno con estos 3 diseños y dame una tabla priorizada por pieza"],
       ["Presentación para cliente", "Slides de Claude o pptx", "Prepara una presentación de 8 diapositivas con la propuesta de rediseño web de [cliente]"],
       ["Plan de campaña", "marketing:campaign-plan", "Usa campaign-plan para el lanzamiento de la nueva colección: objetivos, canales y calendario de 4 semanas"],
-      ["Informe de resultados", "Supermetrics + marketing:performance-report", "Saca el rendimiento de Meta Ads del último mes y prepara un informe para el cliente"],
+      ["Informe de email marketing", "Klaviyo + marketing:performance-report", "Saca los resultados de las campañas de Klaviyo del último mes y prepara un informe para el cliente"],
       ["Moodboard o dirección de arte", "Adobe Firefly Boards o Higgsfield", "Crea un moodboard de 9 imágenes para una marca de café de especialidad, tono cálido y minimalista"],
       ["Brief para el equipo", "Docs de Claude", "Escribe un brief de diseño para la landing de [cliente], con objetivos, público, tono y entregables"]
     ]

@@ -4,6 +4,6 @@
 
 **Plugins:** `design`, `canva`, Adobe, `figma`, `frontend-design`, `marketing`. Añade `social-media-skills` solo si lleva redes: son unas 105 skills y aumentan el consumo.
 
-**Conectores:** Canva, Figma, Adobe, Higgsfield, Google Drive, Gmail, Google Calendar, Supermetrics
+**Conectores:** Canva, Figma, Adobe, Magnific, Higgsfield, Google Drive, Gmail, Google Calendar, Supermetrics
 
 **No instalar:** Ponytail, Superpowers, ECC, `wordpress-devkit`

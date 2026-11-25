@@ -6,7 +6,7 @@ Diseño (sin Adobe) + backend (Perl, Laravel, PHP/WordPress) + automatizaciones 
 
 **Plugins:** `design`, `canva`, `figma`, `frontend-design`, `wordpress-devkit`, Samautomation Workflows (n8n)
 
-**Conectores:** Canva, Figma, Higgsfield, Google Drive, n8n, GitHub
+**Conectores:** Canva, Figma, Magnific, Higgsfield, Google Drive, n8n, GitHub
 
 **No instalar:** Adobe, Superpowers (choca con Ponytail y se solapa con ECC), `social-media-skills`, `marketing`
 

@@ -4,8 +4,8 @@
 
 **Plugins:** `design`, `canva`, Adobe, `figma`, `frontend-design`
 
-**Conectores:** Canva, Figma, Adobe, Higgsfield, Google Drive
+**Conectores:** Canva, Figma, Adobe, Magnific, Higgsfield, Google Drive, html.to.design (reconectar: la sesión expiró)
 
 **No instalar:** Ponytail, Superpowers, ECC, `social-media-skills`, `marketing`, `wordpress-devkit`
 
-**Magnific:** no aparece en el directorio de conectores. Para escalar imágenes, usa el upscale de Higgsfield o de Adobe desde Claude, o Magnific en su web.
+**Magnific:** conectado en la cuenta. Úsalo para escalar; en producto o texto, con creatividad baja.
