@@ -52,5 +52,6 @@ if [ "$DRY" != "--dry-run" ]; then
 fi
 
 echo
+[ "$DRY" = "--dry-run" ] && { echo "Simulación terminada: no se ha cambiado nada."; exit 0; }
 echo "Perfil '$PERFIL' aplicado. Reinicia Claude Code."
 echo "Para ver lo que pesa cada plugin: claude plugin details <nombre@marketplace>"
