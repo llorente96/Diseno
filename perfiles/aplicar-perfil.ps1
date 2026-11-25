@@ -28,6 +28,13 @@ foreach ($par in @(@('enable', $listas.on), @('disable', $listas.off))) {
 
 Write-Host ''
 if ($Simular) { Write-Host 'Simulacion terminada: no se ha cambiado nada.'; exit 0 }
+# Verificacion: lo que debia quedar activo, lo esta? (p. ej. falta una dependencia)
+foreach ($p in (claude plugin list --json | Out-String | ConvertFrom-Json)) {
+  if (($listas.on -contains (Normaliza ($p.id -split '@')[0])) -and -not $p.enabled) {
+    $motivo = if ($p.errors) { $p.errors -join '; ' } else { 'motivo desconocido' }
+    Write-Host "  AVISO $($p.id) sigue desactivado: $motivo"
+  }
+}
 $skills = Join-Path $HOME '.claude\skills'
 New-Item -ItemType Directory -Force -Path $skills | Out-Null
 Copy-Item (Join-Path $PSScriptRoot 'skills-equipo\*') $skills -Recurse -Force

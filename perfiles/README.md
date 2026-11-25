@@ -1,5 +1,7 @@
 # Perfiles de Claude del equipo
 
+Documentación completa: [`DOCUMENTACION.md`](DOCUMENTACION.md) · Pasos: [`MAC.md`](MAC.md) / [`WINDOWS.md`](WINDOWS.md) · Resumen: [`ESQUEMA.md`](ESQUEMA.md)
+
 | Perfil | Quién | Carpeta |
 |---|---|---|
 | Diseño | 3 diseñadores | `diseno/` |

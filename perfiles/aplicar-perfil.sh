@@ -38,6 +38,17 @@ while read -r accion id; do
   claude plugin "$accion" "$id" --scope user >/dev/null 2>&1 && echo "  ✓ $accion $id" || echo "  ✗ no se pudo: $accion $id"
 done <<< "$PLAN"
 
+# Verificación: lo que debía quedar activo, ¿lo está? (p. ej. falta una dependencia)
+if [ "$DRY" != "--dry-run" ]; then
+  claude plugin list --json | ON="$ON" python3 -c '
+import json, os, sys
+on = set(os.environ["ON"].split())
+for p in json.load(sys.stdin):
+    if p["id"].split("@")[0].lower() in on and not p["enabled"]:
+        print("  ⚠ " + p["id"] + " sigue desactivado: " + "; ".join(p.get("errors") or ["motivo desconocido"]))
+'
+fi
+
 # Skills del equipo
 if [ "$DRY" != "--dry-run" ]; then
   mkdir -p "$HOME/.claude/skills"
