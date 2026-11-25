@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Aplica un perfil del equipo en ESTE ordenador (Claude Code).
-# Uso: bash perfiles/aplicar-perfil.sh diseno|ingenieria|direccion [--dry-run]
+# Uso: bash perfiles/aplicar-perfil.sh diseno|ingenieria|director-creativo [--dry-run]
 # Activa/desactiva plugins solo en este equipo (scope user): la cuenta compartida no cambia.
 # Plugins que no aparecen en ninguna lista del perfil no se tocan.
 set -euo pipefail
@@ -15,10 +15,10 @@ case "$PERFIL" in
   ingenieria)
     ON="design figma impeccable ponytail wordpress-dev-skills claude-api document-skills pdf-viewer"
     OFF="ecc superpowers taste-skill marketing sales human-resources social-media-skills" ;;
-  direccion)
+  director-creativo)
     ON="design figma impeccable wordpress-dev-skills marketing document-skills pdf-viewer"
     OFF="ecc ponytail superpowers taste-skill claude-api sales human-resources social-media-skills wordpress-devkit" ;;
-  *) echo "Uso: $0 diseno|ingenieria|direccion [--dry-run]"; exit 1 ;;
+  *) echo "Uso: $0 diseno|ingenieria|director-creativo [--dry-run]"; exit 1 ;;
 esac
 
 command -v claude >/dev/null || { echo "No encuentro el comando 'claude'. Instala Claude Code primero."; exit 1; }

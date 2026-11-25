@@ -17,7 +17,7 @@ bash perfiles/aplicar-perfil.sh <perfil> --dry-run
 bash perfiles/aplicar-perfil.sh <perfil>
 ```
 
-`<perfil>` = `diseno` · `ingenieria` · `direccion`. Reinicia Claude Code al acabar.
+`<perfil>` = `diseno` · `ingenieria` · `director-creativo`. Reinicia Claude Code al acabar.
 
 ## 3. Cada proyecto
 
@@ -25,7 +25,7 @@ Copia `perfiles/<perfil>/.claude/` a la raíz del proyecto.
 
 ## Qué queda activo
 
-| | Diseño (3) | Ingeniería (tú) | Dirección (Rubén) |
+| | Diseño (3) | Ingeniería (tú) | Director creativo (Rubén) |
 |---|---|---|---|
 | Design, Figma, Impeccable | ✅ | ✅ | ✅ |
 | Skills del equipo | ✅ | ✅ | ✅ |
@@ -41,7 +41,7 @@ Copia `perfiles/<perfil>/.claude/` a la raíz del proyecto.
 
 - **Diseño:** Canva, Figma, Adobe, Magnific, Higgsfield, Drive, html.to.design
 - **Ingeniería:** Canva, Figma, Magnific, Higgsfield, n8n, GitHub, servidores MCP locales de WordPress
-- **Dirección:** Canva, Figma, Adobe, Magnific, Higgsfield, Drive, Klaviyo, Slack
+- **Director creativo:** Canva, Figma, Adobe, Magnific, Higgsfield, Drive, Klaviyo, Slack
 
 ## Skills del equipo
 

@@ -1,4 +1,4 @@
-# Perfil: Dirección creativa (Rubén)
+# Perfil: Director creativo (Rubén)
 
 **Base:** Impeccable + skills del equipo
 

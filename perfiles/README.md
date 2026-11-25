@@ -4,7 +4,7 @@
 |---|---|---|
 | Diseño | 3 diseñadores | `diseno/` |
 | Ingeniería | Diseño (sin Adobe) + backend (Perl, Laravel, PHP/WordPress) + n8n | `ingenieria/` |
-| Dirección creativa | Rubén: todo menos backend profundo | `direccion/` |
+| Director creativo | Rubén: todo menos backend profundo | `director-creativo/` |
 
 ## Base común (los 5)
 
@@ -25,7 +25,7 @@ Todos usáis el mismo usuario, así que la cuenta tiene todo instalado. Cada ord
 
 ```bash
 bash perfiles/aplicar-perfil.sh diseno --dry-run   # muestra lo que haría
-bash perfiles/aplicar-perfil.sh diseno             # lo aplica (diseno | ingenieria | direccion)
+bash perfiles/aplicar-perfil.sh diseno             # lo aplica (diseno | ingenieria | director-creativo)
 ```
 
 En el chat de claude.ai los plugins son de la cuenta: cread un Proyecto por perfil con el `CLAUDE.md` del perfil como instrucciones.

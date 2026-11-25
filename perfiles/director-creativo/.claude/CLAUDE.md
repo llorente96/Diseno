@@ -1,4 +1,4 @@
-# Perfil: Dirección creativa
+# Perfil: Director creativo
 
 Todo lo del perfil de Diseño, más estrategia, marketing, redes, presentaciones y revisión del trabajo del equipo. Sin backend profundo.
 

@@ -81,7 +81,7 @@ pre{margin:0;font:13px/1.55 var(--mono);background:var(--bg);border:1px solid va
     <h2 id="base-h">Base común</h2>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Pieza</th><th>Diseño</th><th>Ingeniería</th><th>Dirección</th><th>Motivo</th></tr></thead>
+        <thead><tr><th>Pieza</th><th>Diseño</th><th>Ingeniería</th><th>Director creativo</th><th>Motivo</th></tr></thead>
         <tbody>
           <tr><td><b>Impeccable</b></td><td><span class="chip si">Sí</span></td><td><span class="chip si">Sí</span></td><td><span class="chip si">Sí</span></td><td>Comandos para revisar y pulir diseño: <code>critique</code>, <code>audit</code>, <code>polish</code>, <code>bolder</code>, <code>quieter</code>.</td></tr>
           <tr><td><b>Skills del equipo</b></td><td><span class="chip si">Sí</span></td><td><span class="chip si">Sí</span></td><td><span class="chip si">Sí</span></td><td><code>mejorar-prompt-imagen</code>, <code>revision-diseno</code>, <code>wp-betheme-wpbakery</code>.</td></tr>
@@ -118,8 +118,8 @@ pre{margin:0;font:13px/1.55 var(--mono);background:var(--bg);border:1px solid va
     <h2 id="inst-h">Comandos de instalación en Claude Code</h2>
     <div class="grid2">
       <div class="box"><h3>1. Aplicar el perfil en tu ordenador</h3><pre>bash perfiles/aplicar-perfil.sh diseno --dry-run
-bash perfiles/aplicar-perfil.sh diseno</pre><p class="note">Cambia <code>diseno</code> por <code>ingenieria</code> o <code>direccion</code>. La primera línea solo muestra lo que haría. Activa y desactiva plugins solo en ese ordenador, sin tocar la cuenta, y copia las skills del equipo. Reinicia Claude Code al acabar.</p></div>
-      <div class="box"><h3>2. Perfil del proyecto</h3><p class="note">Copia la carpeta <code>.claude/</code> de tu perfil (<code>perfiles/diseno</code>, <code>ingenieria</code> o <code>direccion</code>) a la raíz de cada proyecto.</p></div>
+bash perfiles/aplicar-perfil.sh diseno</pre><p class="note">Cambia <code>diseno</code> por <code>ingenieria</code> o <code>director-creativo</code>. La primera línea solo muestra lo que haría. Activa y desactiva plugins solo en ese ordenador, sin tocar la cuenta, y copia las skills del equipo. Reinicia Claude Code al acabar.</p></div>
+      <div class="box"><h3>2. Perfil del proyecto</h3><p class="note">Copia la carpeta <code>.claude/</code> de tu perfil (<code>perfiles/diseno</code>, <code>ingenieria</code> o <code>director-creativo</code>) a la raíz de cada proyecto.</p></div>
       <div class="box"><h3>En el chat de claude.ai</h3><p class="note">Ahí los plugins son de la cuenta y los ve todo el mundo. Cread un Proyecto por perfil y pegad en sus instrucciones el <code>CLAUDE.md</code> del perfil.</p></div>
       <div class="box"><h3>Ya instalados en la cuenta</h3><p class="note">Impeccable, Ponytail, ECC, Superpowers y Taste ya están. No hace falta instalar nada más: el script decide cuáles se usan en cada ordenador.</p></div>
     </div>
@@ -171,14 +171,14 @@ const PERFILES = {
       ["Arreglo rápido", "Ponytail", "Corrige este error con el cambio más pequeño posible: [error]"]
     ]
   },
-  direccion: {
-    nombre: "Dirección creativa", quien: "Rubén",
+  director-creativo: {
+    nombre: "Director creativo", quien: "Rubén",
     resumen: "Todo lo de Diseño (incluido WordPress), más estrategia, marketing, presentaciones y revisión del trabajo del equipo. Sin backend profundo.",
     instalar: [
-      "Ejecutar: bash perfiles/aplicar-perfil.sh direccion",
+      "Ejecutar: bash perfiles/aplicar-perfil.sh director-creativo",
       "Comprobar que quedan activos: Design, Figma, Impeccable, WordPress Dev Skills, Marketing, Document skills",
       "Conectores que usarás: Canva, Figma, Adobe, Magnific, Higgsfield, Google Drive, Klaviyo, Slack",
-      "Copiar perfiles/direccion/.claude a cada proyecto"
+      "Copiar perfiles/director-creativo/.claude a cada proyecto"
     ],
     noInstalar: ["Ponytail", "Superpowers", "ECC", "Taste Skill", "Sales", "Human Resources"],
     nota: "Si una tarea necesita backend o un flujo n8n, se anota para el perfil de Ingeniería.",
