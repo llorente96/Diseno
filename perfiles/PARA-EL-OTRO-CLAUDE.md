@@ -15,7 +15,7 @@ Pega esto en Claude Code (cuenta de empresa), dentro de la carpeta `Diseno`:
 
 ## Configurar una mesa (una sola vez por ordenador)
 
-Pasos completos: `perfiles/MAC.md` y `perfiles/WINDOWS.md` (mesa de Rubén: Windows). Resumen para Mac:
+Guía de principio a fin: `perfiles/GUIA-INSTALACION.md`. Pasos por sistema: `perfiles/MAC.md` y `perfiles/WINDOWS.md` (mesa de Rubén: Windows). Resumen para Mac:
 
 ```bash
 git clone https://github.com/llorente96/Diseno.git
