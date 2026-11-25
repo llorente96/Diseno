@@ -38,7 +38,8 @@ for accion, var in (("enable", "ON"), ("disable", "OFF")):
         if not ids:
             print("falta", clave)
         for i in ids:
-            print(accion, i)
+            activo = next(p["enabled"] for p in plugins if p["id"] == i)
+            print(("ya " + i) if activo == (accion == "enable") else (accion + " " + i))
 ')"
 
 while read -r accion id extra; do
@@ -51,8 +52,10 @@ while read -r accion id extra; do
     continue
   fi
   if [ "$accion" = "falta" ]; then echo "  · $id: no está instalado en este equipo (se ignora)"; continue; fi
+  if [ "$accion" = "ya" ]; then echo "  = $id ya estaba como debe"; continue; fi
   if [ "$DRY" = "--dry-run" ]; then echo "  [simulación] $accion $id"; continue; fi
-  claude plugin "$accion" "$id" --scope user >/dev/null 2>&1 && echo "  ✓ $accion $id" || echo "  ✗ no se pudo: $accion $id"
+  if ERR="$(claude plugin "$accion" "$id" --scope user 2>&1)"; then echo "  ✓ $accion $id"
+  else echo "  ✗ no se pudo: $accion $id → $(echo "$ERR" | tail -1)"; fi
 done <<< "$PLAN"
 
 # Verificación: lo que debía quedar activo, ¿lo está? (p. ej. falta una dependencia)

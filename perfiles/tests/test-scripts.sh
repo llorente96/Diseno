@@ -23,7 +23,9 @@ case "$1 $2" in
  {"id":"otro-plugin@x","enabled":true}]
 J
   ;;
-  "plugin enable"|"plugin disable"|"plugin install") echo "$2 $3 $4 $5" >> "$CALLS" ;;
+  "plugin enable"|"plugin disable"|"plugin install")
+    if [ "$3" = "impeccable@impeccable" ]; then echo "Error: simulated failure" >&2; exit 1; fi
+    echo "$2 $3 $4 $5" >> "$CALLS" ;;
   "plugin marketplace") echo "marketplace $3 $4" >> "$CALLS" ;;
   "plugin details") echo "  Always-on:   ~123 tok   added to every session" ;;
   "mcp list") echo "No MCP servers configured." ;;
@@ -40,7 +42,7 @@ OUT="$(bash "$PERFILES/aplicar-perfil.sh" director-creativo --dry-run)"
 check "activa impeccable"        'grep -q "enable impeccable@impeccable" <<<"$OUT"'
 check "apaga ponytail"           'grep -q "disable ponytail@ponytail" <<<"$OUT"'
 check "apaga taste-skill"        'grep -q "disable taste-skill@taste-skill" <<<"$OUT"'
-check "mantiene marketing"       'grep -q "enable marketing@synced" <<<"$OUT"'
+check "no toca lo que ya está bien" 'grep -q "marketing@synced ya estaba como debe" <<<"$OUT"'
 check "no cambia nada"           '[ ! -s "$CALLS" ]'
 check "no toca plugins ajenos"   '! grep -q "otro-plugin" <<<"$OUT"'
 check "simula instalar la dependencia aprobada" 'grep -q "instalar dependencia wordpress-official-agent-skills" <<<"$OUT"'
@@ -51,6 +53,7 @@ echo "2. Aplicar de verdad (diseno)"
 nuevo_home 2
 OUT="$(bash "$PERFILES/aplicar-perfil.sh" diseno)"
 check "avisa si algo sigue apagado" 'grep -q "wp-dev-skills@synced sigue desactivado" <<<"$OUT"'
+check "muestra el error real si algo falla" 'grep -q "no se pudo: enable impeccable@impeccable → Error: simulated failure" <<<"$OUT"'
 check "añade el marketplace de la dependencia" 'grep -q "marketplace add mralaminahamed/wordpress-official-agent-skills" "$CALLS"'
 check "instala la dependencia aprobada" 'grep -q "install wordpress-official-agent-skills@wordpress-official-agent-skills --scope user" "$CALLS"'
 check "nunca instala la no aprobada" '! grep -q "desconocida" "$CALLS"'

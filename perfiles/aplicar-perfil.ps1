@@ -38,9 +38,11 @@ foreach ($par in @(@('enable', $listas.on), @('disable', $listas.off))) {
     $ids = @($plugins | Where-Object { (Normaliza ($_.id -split '@')[0]) -eq $clave } | ForEach-Object { $_.id })
     if ($ids.Count -eq 0) { Write-Host "  - ${clave}: no esta instalado en este equipo (se ignora)"; continue }
     foreach ($id in $ids) {
+      $activo = ($plugins | Where-Object { $_.id -eq $id } | Select-Object -First 1).enabled
+      if ([bool]$activo -eq ($accion -eq 'enable')) { Write-Host "  = $id ya estaba como debe"; continue }
       if ($Simular) { Write-Host "  [simulacion] $accion $id"; continue }
-      claude plugin $accion $id --scope user *> $null
-      if ($LASTEXITCODE -eq 0) { Write-Host "  OK $accion $id" } else { Write-Host "  ERROR no se pudo: $accion $id" }
+      $err = claude plugin $accion $id --scope user 2>&1 | Out-String
+      if ($LASTEXITCODE -eq 0) { Write-Host "  OK $accion $id" } else { Write-Host "  ERROR no se pudo: $accion $id -> $(($err.Trim() -split "`n")[-1])" }
     }
   }
 }
