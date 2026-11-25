@@ -18,10 +18,13 @@ case "$1 $2" in
 [{"id":"design@synced","enabled":true},{"id":"figma@synced","enabled":true},
  {"id":"impeccable@impeccable","enabled":false},{"id":"ponytail@ponytail","enabled":true},
  {"id":"taste-skill@taste-skill","enabled":true},{"id":"marketing@synced","enabled":true},
- {"id":"wp-dev-skills@synced","enabled":false},{"id":"otro-plugin@x","enabled":true}]
+ {"id":"wp-dev-skills@synced","enabled":false,"errorDetails":[{"type":"dependency-unsatisfied","dependency":"wordpress-official-agent-skills@wordpress-official-agent-skills"}]},
+ {"id":"document-skills@x","enabled":false,"errorDetails":[{"type":"dependency-unsatisfied","dependency":"desconocida@nadie"}]},
+ {"id":"otro-plugin@x","enabled":true}]
 J
   ;;
-  "plugin enable"|"plugin disable") echo "$2 $3 $4 $5" >> "$CALLS" ;;
+  "plugin enable"|"plugin disable"|"plugin install") echo "$2 $3 $4 $5" >> "$CALLS" ;;
+  "plugin marketplace") echo "marketplace $3 $4" >> "$CALLS" ;;
   "plugin details") echo "  Always-on:   ~123 tok   added to every session" ;;
   "mcp list") echo "No MCP servers configured." ;;
 esac
@@ -40,12 +43,17 @@ check "apaga taste-skill"        'grep -q "disable taste-skill@taste-skill" <<<"
 check "mantiene marketing"       'grep -q "enable marketing@synced" <<<"$OUT"'
 check "no cambia nada"           '[ ! -s "$CALLS" ]'
 check "no toca plugins ajenos"   '! grep -q "otro-plugin" <<<"$OUT"'
+check "simula instalar la dependencia aprobada" 'grep -q "instalar dependencia wordpress-official-agent-skills" <<<"$OUT"'
+check "no instala dependencias no aprobadas" 'grep -q "desconocida@nadie y no está en dependencias.json" <<<"$OUT"'
 check "mensaje de simulación"    'grep -q "no se ha cambiado nada" <<<"$OUT"'
 
 echo "2. Aplicar de verdad (diseno)"
 nuevo_home 2
 OUT="$(bash "$PERFILES/aplicar-perfil.sh" diseno)"
 check "avisa si algo sigue apagado" 'grep -q "wp-dev-skills@synced sigue desactivado" <<<"$OUT"'
+check "añade el marketplace de la dependencia" 'grep -q "marketplace add mralaminahamed/wordpress-official-agent-skills" "$CALLS"'
+check "instala la dependencia aprobada" 'grep -q "install wordpress-official-agent-skills@wordpress-official-agent-skills --scope user" "$CALLS"'
+check "nunca instala la no aprobada" '! grep -q "desconocida" "$CALLS"'
 check "desactiva marketing"      'grep -q "disable marketing@synced --scope user" "$CALLS"'
 check "activa wp-dev-skills"     'grep -q "enable wp-dev-skills@synced --scope user" "$CALLS"'
 check "copia skills del equipo"  '[ -f "$HOME/.claude/skills/revision-diseno/SKILL.md" ]'
@@ -81,7 +89,7 @@ bash "$TMP/mesa/perfiles/instalar-mesa.sh" diseno >/dev/null; : > "$CALLS"
 bash "$TMP/mesa/perfiles/actualizar-perfil.sh"; sleep 2
 check "sin cambios no reaplica"  '[ ! -s "$CALLS" ]'
 rm -f "$HOME/.claude/perfil-equipo.ultimo"
-sed -i.bak 's/"pdf-viewer"\]/"pdf-viewer", "marketing"]/' "$TMP/origen/perfiles/perfiles.json" 2>/dev/null
+python3 -c 'import json,sys;p=sys.argv[1];d=json.load(open(p));d["diseno"]["off"].remove("marketing");d["diseno"]["on"].append("marketing");json.dump(d,open(p,"w"),indent=2)' "$TMP/origen/perfiles/perfiles.json"
 git -C "$TMP/origen" -c user.name=t -c user.email=t@t commit -qam "cambio de perfil"
 bash "$TMP/mesa/perfiles/actualizar-perfil.sh"
 for _ in $(seq 20); do [ -s "$CALLS" ] && break; sleep 0.5; done; sleep 1

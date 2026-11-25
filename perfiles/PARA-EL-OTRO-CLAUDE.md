@@ -49,7 +49,7 @@ Muestra el perfil guardado, los plugins activos con su coste en tokens, los hook
 
 Lista completa y actualizada: `perfiles/DOCUMENTACION.md`, punto 7.
 
-- **WordPress Dev Skills necesita la dependencia `wordpress-official-agent-skills`**: sin ella sigue apagado.
+- WordPress Dev Skills necesita `wordpress-official-agent-skills`: el script la instala solo porque está en `dependencias.json`.
 
 - Confirmar que **WordPress Dev Skills** se llama `wp-dev-skills` en `claude plugin list` (así lo usa ahora `aplicar-perfil.sh`).
 - Reconectar **html.to.design** en la cuenta.

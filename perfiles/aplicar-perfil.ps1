@@ -4,7 +4,8 @@ param(
   [Parameter(Mandatory = $true)][ValidateSet('diseno', 'ingenieria', 'director-creativo')][string]$Perfil,
   [switch]$Simular
 )
-$ErrorActionPreference = 'Stop'
+# Continue: en PowerShell 5.1, con 'Stop' cualquier aviso de claude por stderr cortaria el script.
+$ErrorActionPreference = 'Continue'
 # El instalador de Claude Code deja claude.exe en .local\bin, que a veces no esta en el PATH.
 if (-not (Get-Command claude -ErrorAction SilentlyContinue)) { $env:Path = (Join-Path $HOME '.local\bin') + ';' + $env:Path }
 if (-not (Get-Command claude -ErrorAction SilentlyContinue)) { Write-Host "No encuentro el comando 'claude'. Instala Claude Code primero."; exit 1 }
@@ -12,6 +13,24 @@ if (-not (Get-Command claude -ErrorAction SilentlyContinue)) { Write-Host "No en
 $listas  = (Get-Content (Join-Path $PSScriptRoot 'perfiles.json') -Raw -Encoding UTF8 | ConvertFrom-Json).$Perfil
 $plugins = claude plugin list --json | Out-String | ConvertFrom-Json
 function Normaliza([string]$s) { $s.ToLower().Replace('_', '-').Replace(' ', '-') }
+
+# Dependencias que faltan a plugins del perfil: solo se instalan las aprobadas en dependencias.json
+$rutaDeps = Join-Path $PSScriptRoot 'dependencias.json'
+$aprobadas = if (Test-Path $rutaDeps) { Get-Content $rutaDeps -Raw -Encoding UTF8 | ConvertFrom-Json } else { New-Object PSObject }
+$vistas = @{}
+foreach ($p in $plugins) {
+  if ($listas.on -notcontains (Normaliza ($p.id -split '@')[0])) { continue }
+  foreach ($e in @($p.errorDetails)) {
+    if (-not $e -or $e.type -ne 'dependency-unsatisfied' -or $vistas.ContainsKey($e.dependency)) { continue }
+    $dep = $e.dependency; $vistas[$dep] = $true
+    $origen = $aprobadas.$dep
+    if (-not $origen) { Write-Host "  AVISO falta la dependencia $dep y no esta en dependencias.json (no se instala)"; continue }
+    if ($Simular) { Write-Host "  [simulacion] instalar dependencia $dep (de $origen)"; continue }
+    claude plugin marketplace add $origen *> $null
+    claude plugin install $dep --scope user *> $null
+    if ($LASTEXITCODE -eq 0) { Write-Host "  OK dependencia instalada: $dep" } else { Write-Host "  ERROR no se pudo instalar la dependencia $dep" }
+  }
+}
 
 foreach ($par in @(@('enable', $listas.on), @('disable', $listas.off))) {
   $accion = $par[0]

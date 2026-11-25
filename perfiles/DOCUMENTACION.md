@@ -63,6 +63,7 @@ Conectores (de la cuenta, compartidos): Canva, Figma, Adobe, Magnific, Higgsfiel
 | Archivo | Para qué |
 |---|---|
 | `perfiles.json` | **Única fuente** de qué lleva cada perfil |
+| `dependencias.json` | Dependencias aprobadas que los scripts instalan solos si faltan (hoy: la de WordPress Dev Skills) |
 | `aplicar-perfil.sh` / `.ps1` | Aplica un perfil en ese ordenador (Mac / Windows) |
 | `instalar-mesa.sh` / `.ps1` | Configura una mesa una vez: perfil, skills y hook de actualización |
 | `actualizar-perfil.sh` / `.ps1` | Lo ejecuta el hook: una vez al día, `git pull` y reaplica si cambió algo |
@@ -103,23 +104,21 @@ En cada mesa:
 | Windows: `No encuentro el comando 'claude'` | El instalador deja `claude.exe` en `%USERPROFILE%\.local\bin`, fuera del PATH | Los scripts lo buscan ahí solos. Para la terminal, añadirlo al PATH (ver `WINDOWS.md`) |
 | `El argumento 'perfiles\…' no existe` | Ejecutado desde otra carpeta | Los comandos de `WINDOWS.md` usan rutas completas |
 | `curl … \| bash`: bash no se reconoce | Es el instalador de Mac/Linux | En Windows: `irm https://claude.ai/install.ps1 \| iex` |
-| WordPress Dev Skills sigue desactivado tras activarlo | Depende de `wordpress-official-agent-skills`, que no está instalado | Ver el punto 7. El script ahora lo avisa con ⚠ / AVISO |
+| WordPress Dev Skills sigue desactivado tras activarlo | Depende de `wordpress-official-agent-skills`, que no estaba instalado | **Automático**: el script instala la dependencia porque está aprobada en `dependencias.json`. Si un plugin pide otra no aprobada, solo avisa |
+| Windows: el script se corta a mitad sin motivo claro | Con `ErrorActionPreference = Stop`, PowerShell 5.1 trata cualquier aviso de `claude` como error | `aplicar-perfil.ps1` usa `Continue` |
 | `cd Diseno`: no existe | Ya estabas dentro de `Diseno` | Ignorarlo |
 
 ## 7. Pendientes
 
-1. **Instalar la dependencia de WordPress Dev Skills** en cada mesa (o una vez en la cuenta):
-   ```bash
-   claude plugin marketplace add mralaminahamed/wordpress-official-agent-skills
-   claude plugin install wordpress-official-agent-skills@wordpress-official-agent-skills --scope user
-   ```
-   Después, vuelve a aplicar el perfil. Es un plugin de comunidad (de los mismos autores): revísalo antes.
+1. ~~Instalar la dependencia de WordPress Dev Skills~~: ahora la instala el script automáticamente.
 2. **Mesa de Rubén (Windows):** añadir `.local\bin` al PATH, reiniciar PowerShell y ejecutar `instalar-mesa.ps1 -Perfil director-creativo`.
 3. **Reconectar html.to.design** en la cuenta.
 4. **Probar `instalar-mesa.ps1` y el hook en Windows**: no se han podido probar fuera de una mesa real.
 5. Decidir si Productivity y Slack (plugin) se quedan; ahora el script no los toca.
 
 ## 8. Seguridad
+
+- **Dependencias:** solo se instalan automáticamente las que figuran en `dependencias.json`. Añadir una ahí equivale a aprobar ese plugin de terceros para todas las mesas.
 
 - **El hook ejecuta código del repositorio.** Quien pueda hacer push a `llorente96/Diseno` puede ejecutar código en las 5 mesas la próxima vez que abran Claude Code. Medidas:
   - Que solo una persona tenga permiso de escritura.
@@ -135,7 +134,7 @@ En cada mesa:
 | Fase | Resultado |
 |---|---|
 | Sintaxis bash (`bash -n`) | OK |
-| Tests (`tests/test-scripts.sh`) | 25/25 pasan: simulación, aplicación real, perfil inválido, `claude` fuera del PATH, hook sin duplicados y sin borrar ajustes, actualización con y sin cambios, límite diario, `ver-mesa`, coherencia de `perfiles.json`, `.ps1` en ASCII, aviso de plugins que siguen apagados |
+| Tests (`tests/test-scripts.sh`) | 30/30 pasan: simulación, aplicación real, perfil inválido, `claude` fuera del PATH, hook sin duplicados y sin borrar ajustes, actualización con y sin cambios, límite diario, `ver-mesa`, coherencia de `perfiles.json`, `.ps1` en ASCII, aviso de plugins que siguen apagados, instalación de dependencias aprobadas y bloqueo de las no aprobadas |
 | Búsqueda de claves | Ninguna en scripts ni JSON |
 | PowerShell | **Sin probar** (no hay PowerShell en este entorno). Validado en la mesa de Rubén: `aplicar-perfil.ps1 -Simular` funciona |
-| Aplicado en el Claude Code de esta sesión (perfil Ingeniería) | OK, salvo WordPress Dev Skills (falta su dependencia, ver punto 7) |
+| Aplicado en el Claude Code de esta sesión (perfil Ingeniería) | OK. La dependencia de WordPress Dev Skills no se pudo instalar aquí (el entorno bloquea plugins de terceros); en las mesas la instala el script |

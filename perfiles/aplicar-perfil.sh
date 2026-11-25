@@ -18,10 +18,20 @@ command -v claude >/dev/null || export PATH="$HOME/.local/bin:$PATH"  # instalad
 command -v claude >/dev/null || { echo "No encuentro el comando 'claude'. Instala Claude Code primero."; exit 1; }
 
 # Empareja cada nombre del perfil con el id real (nombre@marketplace) instalado en este equipo.
-PLAN="$(claude plugin list --json | ON="$ON" OFF="$OFF" python3 -c '
+PLAN="$(claude plugin list --json | ON="$ON" OFF="$OFF" DEPS="$DIR/dependencias.json" python3 -c '
 import json, os, sys
 plugins = json.load(sys.stdin)
 def norm(s): return s.lower().replace("_", "-").replace(" ", "-")
+# Dependencias que faltan a plugins del perfil: solo las aprobadas en dependencias.json
+aprobadas = json.load(open(os.environ["DEPS"])) if os.path.exists(os.environ["DEPS"]) else {}
+vistas = set()
+for p in plugins:
+    if norm(p["id"].split("@")[0]) not in os.environ["ON"].split(): continue
+    for e in p.get("errorDetails") or []:
+        dep = e.get("dependency")
+        if e.get("type") != "dependency-unsatisfied" or dep in vistas: continue
+        vistas.add(dep)
+        print(("dep " + aprobadas[dep] + " " + dep) if dep in aprobadas else ("depnoaprobada " + dep))
 for accion, var in (("enable", "ON"), ("disable", "OFF")):
     for clave in os.environ[var].split():
         ids = [p["id"] for p in plugins if norm(p["id"].split("@")[0]) == clave]
@@ -31,8 +41,15 @@ for accion, var in (("enable", "ON"), ("disable", "OFF")):
             print(accion, i)
 ')"
 
-while read -r accion id; do
+while read -r accion id extra; do
   [ -z "$accion" ] && continue
+  if [ "$accion" = "depnoaprobada" ]; then echo "  ⚠ falta la dependencia $id y no está en dependencias.json (no se instala)"; continue; fi
+  if [ "$accion" = "dep" ]; then
+    if [ "$DRY" = "--dry-run" ]; then echo "  [simulación] instalar dependencia $extra (de $id)"; continue; fi
+    claude plugin marketplace add "$id" >/dev/null 2>&1 || true  # puede existir ya
+    claude plugin install "$extra" --scope user >/dev/null 2>&1 && echo "  ✓ dependencia instalada: $extra" || echo "  ✗ no se pudo instalar la dependencia $extra"
+    continue
+  fi
   if [ "$accion" = "falta" ]; then echo "  · $id: no está instalado en este equipo (se ignora)"; continue; fi
   if [ "$DRY" = "--dry-run" ]; then echo "  [simulación] $accion $id"; continue; fi
   claude plugin "$accion" "$id" --scope user >/dev/null 2>&1 && echo "  ✓ $accion $id" || echo "  ✗ no se pudo: $accion $id"
