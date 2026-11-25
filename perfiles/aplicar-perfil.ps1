@@ -5,6 +5,8 @@ param(
   [switch]$Simular
 )
 $ErrorActionPreference = 'Stop'
+# El instalador de Claude Code deja claude.exe en .local\bin, que a veces no esta en el PATH.
+if (-not (Get-Command claude -ErrorAction SilentlyContinue)) { $env:Path = (Join-Path $HOME '.local\bin') + ';' + $env:Path }
 if (-not (Get-Command claude -ErrorAction SilentlyContinue)) { Write-Host "No encuentro el comando 'claude'. Instala Claude Code primero."; exit 1 }
 
 $listas  = (Get-Content (Join-Path $PSScriptRoot 'perfiles.json') -Raw -Encoding UTF8 | ConvertFrom-Json).$Perfil

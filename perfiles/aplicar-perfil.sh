@@ -14,6 +14,7 @@ python3 -c 'import json,sys; sys.exit(0 if sys.argv[2] in json.load(open(sys.arg
 ON="$(python3 -c 'import json,sys; print(" ".join(json.load(open(sys.argv[1]))[sys.argv[2]]["on"]))' "$DIR/perfiles.json" "$PERFIL")"
 OFF="$(python3 -c 'import json,sys; print(" ".join(json.load(open(sys.argv[1]))[sys.argv[2]]["off"]))' "$DIR/perfiles.json" "$PERFIL")"
 
+command -v claude >/dev/null || export PATH="$HOME/.local/bin:$PATH"  # instalador nativo
 command -v claude >/dev/null || { echo "No encuentro el comando 'claude'. Instala Claude Code primero."; exit 1; }
 
 # Empareja cada nombre del perfil con el id real (nombre@marketplace) instalado en este equipo.
