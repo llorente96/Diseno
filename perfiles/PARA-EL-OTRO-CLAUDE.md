@@ -13,6 +13,11 @@ Pega esto en Claude Code (cuenta de empresa), dentro de la carpeta `Diseno`:
   - `ingenieria`: diseño sin Adobe, más backend (Perl, Laravel, PHP), n8n y la selección de ECC.
   - `director-creativo`: Rubén. Todo menos backend profundo, con Marketing. Ponytail apagado por defecto.
 
+## Dos niveles
+
+- **Perfil** por ordenador (`instalar-mesa`).
+- **Tipo de trabajo** por proyecto (`preparar-proyecto`): `wordpress`, `diseno-grafico`, `automatizacion`, `backend`. Kits en `perfiles/trabajos/`.
+
 ## Configurar una mesa (una sola vez por ordenador)
 
 Guía de principio a fin: `perfiles/GUIA-INSTALACION.md`. Pasos por sistema: `perfiles/MAC.md` y `perfiles/WINDOWS.md` (mesa de Rubén: Windows). Resumen para Mac:
@@ -51,6 +56,6 @@ Lista completa y actualizada: `perfiles/DOCUMENTACION.md`, punto 7.
 
 - WordPress Dev Skills necesita `wordpress-official-agent-skills`: el script la instala solo porque está en `dependencias.json`.
 
-- Confirmar que **WordPress Dev Skills** se llama `wp-dev-skills` en `claude plugin list` (así lo usa ahora `aplicar-perfil.sh`).
+- WordPress Dev Skills (`wp-dev-skills@synced`) está apagado en todas las mesas y solo se activa en proyectos preparados con `preparar-proyecto … wordpress`.
 - Reconectar **html.to.design** en la cuenta.
 - Al reaplicar un perfil, Ponytail vuelve a apagarse en la mesa de Rubén si lo había encendido a mano.

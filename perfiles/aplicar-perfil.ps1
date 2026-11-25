@@ -38,8 +38,9 @@ foreach ($par in @(@('enable', $listas.on), @('disable', $listas.off))) {
     $ids = @($plugins | Where-Object { (Normaliza ($_.id -split '@')[0]) -eq $clave } | ForEach-Object { $_.id })
     if ($ids.Count -eq 0) { Write-Host "  - ${clave}: no esta instalado en este equipo (se ignora)"; continue }
     foreach ($id in $ids) {
-      $activo = ($plugins | Where-Object { $_.id -eq $id } | Select-Object -First 1).enabled
-      if ([bool]$activo -eq ($accion -eq 'enable')) { Write-Host "  = $id ya estaba como debe"; continue }
+      $pl = $plugins | Where-Object { $_.id -eq $id } | Select-Object -First 1
+      # con errores, "enabled" no refleja el ajuste guardado: aplicar siempre
+      if (([bool]$pl.enabled -eq ($accion -eq 'enable')) -and -not $pl.errors) { Write-Host "  = $id ya estaba como debe"; continue }
       if ($Simular) { Write-Host "  [simulacion] $accion $id"; continue }
       $err = claude plugin $accion $id --scope user 2>&1 | Out-String
       if ($LASTEXITCODE -eq 0) { Write-Host "  OK $accion $id" } else { Write-Host "  ERROR no se pudo: $accion $id -> $(($err.Trim() -split "`n")[-1])" }
@@ -60,6 +61,19 @@ $skills = Join-Path $HOME '.claude\skills'
 New-Item -ItemType Directory -Force -Path $skills | Out-Null
 Copy-Item (Join-Path $PSScriptRoot 'skills-equipo\*') $skills -Recurse -Force
 Write-Host '  OK skills del equipo copiadas a .claude\skills'
+# Instrucciones del perfil en .claude\CLAUDE.md del usuario, entre marcas (no toca el resto)
+$srcMd = Join-Path $PSScriptRoot "$Perfil\.claude\CLAUDE.md"
+if (Test-Path $srcMd) {
+  $dstMd = Join-Path $HOME '.claude\CLAUDE.md'
+  $bloque = "<!-- perfil-equipo:inicio -->`n" + (Get-Content $srcMd -Raw -Encoding UTF8).Trim() + "`n<!-- perfil-equipo:fin -->`n"
+  $actual = if (Test-Path $dstMd) { Get-Content $dstMd -Raw -Encoding UTF8 } else { '' }
+  if ($null -eq $actual) { $actual = '' }
+  $patron = '(?s)<!-- perfil-equipo:inicio -->.*?<!-- perfil-equipo:fin -->\r?\n?'
+  if ($actual -match $patron) { $nuevo = [regex]::Replace($actual, $patron, { param($m) $bloque }) }
+  elseif ($actual.Trim()) { $nuevo = $actual.TrimEnd() + "`n`n" + $bloque } else { $nuevo = $bloque }
+  [IO.File]::WriteAllText($dstMd, $nuevo, (New-Object System.Text.UTF8Encoding($false)))
+  Write-Host '  OK instrucciones del perfil en .claude\CLAUDE.md'
+}
 # Skills propias del perfil (p. ej. la seleccion de ECC en ingenieria\.claude\skills)
 $propias = Join-Path $PSScriptRoot "$Perfil\.claude\skills"
 if (Test-Path $propias) {

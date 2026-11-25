@@ -23,7 +23,7 @@ Tiempo aproximado: 10–15 minutos por mesa.
 | Design | ✅ | ✅ | ✅ |
 | Figma | ✅ | ✅ | ✅ |
 | Impeccable | ✅ | ✅ | ✅ |
-| WordPress Dev Skills (+ dependencia, se instala sola) | ✅ | ✅ | ✅ |
+| WordPress Dev Skills (+ dependencia) | solo en proyectos WordPress | solo en proyectos WordPress | solo en proyectos WordPress |
 | Document skills, PDF Viewer | ✅ | ✅ | ✅ |
 | Marketing | ❌ | ❌ | ✅ |
 | Ponytail | ❌ | ✅ | ❌ (se puede activar a mano) |
@@ -173,21 +173,23 @@ Si al final aparece `⚠` o `AVISO … sigue desactivado`, anota el motivo que i
 
 ---
 
-## 6. Configurar cada proyecto (Claude Code)
+## 6. Cada proyecto: tipo de trabajo (Claude Code)
 
-Cada perfil tiene una carpeta `.claude` con instrucciones cortas (`CLAUDE.md`). Ingeniería, además, trae 17 skills de backend de ECC. Cópiala en la raíz de cada proyecto donde vayas a usar Claude Code:
+El perfil dice quién eres; el tipo de trabajo dice qué proyecto es. Una vez por proyecto:
 
-**Mac**
-```bash
-cp -R ~/Diseno/perfiles/PERFIL/.claude /ruta/al/proyecto/
-```
+1. En la terminal, escribe `cd ` (con espacio), arrastra la carpeta del proyecto a la ventana y pulsa Enter.
+2. Ejecuta un comando por tipo (se pueden combinar):
+   - **Mac:** `bash ~/Diseno/perfiles/preparar-proyecto.sh wordpress`
+   - **Windows:** `powershell -ExecutionPolicy Bypass -File $HOME\Diseno\perfiles\preparar-proyecto.ps1 -Tipo wordpress`
 
-**Windows**
-```powershell
-Copy-Item -Recurse -Force $HOME\Diseno\perfiles\PERFIL\.claude C:\ruta\al\proyecto\
-```
+| Tipo | Activa solo en ese proyecto |
+|---|---|
+| `wordpress` | WordPress Dev Skills y su dependencia, más instrucciones de Betheme/WPBakery |
+| `diseno-grafico` | Instrucciones de imagen, vídeo y revisión |
+| `automatizacion` | Instrucciones de n8n |
+| `backend` | Reglas de código de ECC |
 
-Si el proyecto ya tiene `.claude/CLAUDE.md`, no lo sobrescribas: añade el contenido del perfil al final.
+3. Abre Claude Code desde esa carpeta (`claude`). Si el proyecto usa git, sube su carpeta `.claude`.
 
 ---
 

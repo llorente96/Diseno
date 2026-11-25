@@ -38,8 +38,10 @@ for accion, var in (("enable", "ON"), ("disable", "OFF")):
         if not ids:
             print("falta", clave)
         for i in ids:
-            activo = next(p["enabled"] for p in plugins if p["id"] == i)
-            print(("ya " + i) if activo == (accion == "enable") else (accion + " " + i))
+            pl = next(p for p in plugins if p["id"] == i)
+            # con errores, "enabled" no refleja el ajuste guardado: aplicar siempre
+            bien = pl["enabled"] == (accion == "enable") and not pl.get("errors")
+            print(("ya " + i) if bien else (accion + " " + i))
 ')"
 
 while read -r accion id extra; do
@@ -74,6 +76,19 @@ if [ "$DRY" != "--dry-run" ]; then
   mkdir -p "$HOME/.claude/skills"
   cp -R "$DIR/skills-equipo/"* "$HOME/.claude/skills/"
   echo "  ✓ skills del equipo copiadas a ~/.claude/skills"
+  # Instrucciones del perfil en ~/.claude/CLAUDE.md, entre marcas (no toca el resto del archivo)
+  if [ -f "$DIR/$PERFIL/.claude/CLAUDE.md" ]; then
+    python3 - "$DIR/$PERFIL/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md" <<'PY'
+import os, re, sys
+src, dst = sys.argv[1:3]
+bloque = "<!-- perfil-equipo:inicio -->\n" + open(src).read().strip() + "\n<!-- perfil-equipo:fin -->\n"
+s = open(dst).read() if os.path.exists(dst) else ""
+patron = re.compile(r"<!-- perfil-equipo:inicio -->.*?<!-- perfil-equipo:fin -->\n?", re.S)
+s = patron.sub(lambda m: bloque, s) if patron.search(s) else (s.rstrip() + "\n\n" + bloque if s.strip() else bloque)
+open(dst, "w").write(s)
+PY
+    echo "  ✓ instrucciones del perfil en ~/.claude/CLAUDE.md"
+  fi
   # Skills propias del perfil (p. ej. la selección de ECC en ingenieria/.claude/skills)
   if [ -d "$DIR/$PERFIL/.claude/skills" ]; then
     cp -R "$DIR/$PERFIL/.claude/skills/"* "$HOME/.claude/skills/"

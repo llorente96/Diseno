@@ -52,16 +52,18 @@ code{font-family:var(--mono);font-size:.88em;background:var(--accent-soft);paddi
 
 /* Pasos */
 ol.steps{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:paso}
-.step{counter-increment:paso;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:12px;grid-template-columns:36px minmax(0,1fr);column-gap:14px}
-.step::before{content:counter(paso);grid-row:1 / span 20;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font:700 15px/32px var(--display);text-align:center}
-.step > *{grid-column:2}
+.step{counter-increment:paso;position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 18px 18px 66px;display:grid;gap:12px;min-width:0}
+.step::before{content:counter(paso);position:absolute;left:18px;top:16px;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font:700 15px/32px var(--display);text-align:center}
+.step > *{min-width:0}
+@media (max-width:480px){.step{padding-left:18px;padding-top:58px}.step::before{top:16px}}
 .note{font-size:14px;color:var(--muted)}
 .cmd{display:flex;align-items:stretch;background:var(--code-bg);border-radius:8px;overflow:hidden;min-width:0}
 .cmd pre{margin:0;flex:1;min-width:0;padding:11px 12px;color:var(--code-fg);font:13px/1.5 var(--mono);overflow-x:auto;white-space:pre}
 .copy{flex:none;border:0;border-left:1px solid rgb(255 255 255 / .12);background:transparent;color:var(--code-fg);font:600 12px/1 var(--body);padding:0 14px;cursor:pointer}
 .copy:hover{background:rgb(255 255 255 / .08)}
 .expect{border-left:3px solid var(--ok);background:var(--ok-soft);padding:9px 12px;border-radius:0 8px 8px 0;font-size:14px}
-.ifnot{border-left:3px solid var(--warn);background:var(--warn-soft);padding:9px 12px;border-radius:0 8px 8px 0;font-size:14px;display:grid;gap:8px}
+.ifnot{border-left:3px solid var(--warn);background:var(--warn-soft);padding:9px 12px;border-radius:0 8px 8px 0;font-size:14px}
+.ifnot > .cmd,.ifnot > p{margin-top:8px}
 .label{font:600 12px/1 var(--body);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:4px}
 .expect .label{color:var(--ok)} .ifnot .label{color:var(--warn)}
 table{border-collapse:collapse;width:100%;font-size:14px}
@@ -97,6 +99,14 @@ details > div{margin-top:10px;display:grid;gap:10px}
     <ol class="steps" id="steps"></ol>
   </section>
 
+  <section style="display:grid;gap:14px" aria-labelledby="proy-h">
+    <h2 id="proy-h">Cada proyecto: tipo de trabajo</h2>
+    <p class="lead" style="margin:0">El perfil dice quién eres; el tipo de trabajo dice qué proyecto es. Hazlo una vez por proyecto. Lo que active un tipo (por ejemplo, WordPress Dev Skills) solo funciona dentro de ese proyecto, así el resto de sesiones no gasta esos tokens.</p>
+    <div class="picker-row"><span>Tipo</span><div class="seg" id="tipos"></div></div>
+    <div class="card" id="tipo-info"></div>
+    <ol class="steps" id="psteps"></ol>
+  </section>
+
   <section style="display:grid;gap:10px">
     <h2>Si algo falla</h2>
     <div id="problemas"></div>
@@ -108,16 +118,16 @@ const REPO = "https://github.com/llorente96/Diseno.git";
 const RAMA = "claude/upbeat-einstein-sa9u96";
 const PERFILES = {
   "diseno": { nombre: "Diseño", quien: "Diseñadores",
-    on: ["Design","Figma","Impeccable","WordPress Dev Skills","Document skills","PDF Viewer"],
-    off: ["Ponytail","Superpowers","Taste","ECC","Claude api","Marketing","Sales","Human Resources","social-media-skills","wordpress-devkit"],
+    on: ["Design","Figma","Impeccable","Document skills","PDF Viewer"],
+    off: ["Ponytail","Superpowers","Taste","ECC","Claude api","Marketing","Sales","Human Resources","social-media-skills","wordpress-devkit","WordPress Dev Skills (solo en proyectos WordPress)"],
     conectores: "Canva, Figma, Adobe, Magnific, Higgsfield, Google Drive y html.to.design" },
   "ingenieria": { nombre: "Ingeniería", quien: "Backend y n8n",
-    on: ["Design","Figma","Impeccable","Ponytail","WordPress Dev Skills","Claude api","Document skills","PDF Viewer"],
-    off: ["ECC completo","Superpowers","Taste","Marketing","Sales","Human Resources","social-media-skills","Adobe (plugin)"],
+    on: ["Design","Figma","Impeccable","Ponytail","Claude api","Document skills","PDF Viewer","17 skills de ECC (backend)"],
+    off: ["ECC completo","Superpowers","Taste","Marketing","Sales","Human Resources","social-media-skills","Adobe (plugin)","WordPress Dev Skills (solo en proyectos WordPress)"],
     conectores: "Canva, Figma, Magnific, Higgsfield, n8n, GitHub y los servidores MCP locales de WordPress" },
   "director-creativo": { nombre: "Director creativo", quien: "Rubén",
-    on: ["Design","Figma","Impeccable","WordPress Dev Skills","Marketing","Document skills","PDF Viewer"],
-    off: ["Ponytail","Superpowers","Taste","ECC","Claude api","Sales","Human Resources","social-media-skills","wordpress-devkit"],
+    on: ["Design","Figma","Impeccable","Marketing","Document skills","PDF Viewer"],
+    off: ["Ponytail","Superpowers","Taste","ECC","Claude api","Sales","Human Resources","social-media-skills","wordpress-devkit","WordPress Dev Skills (solo en proyectos WordPress)"],
     conectores: "Canva, Figma, Adobe, Magnific, Higgsfield y Google Drive" }
 };
 const SISTEMAS = { mac: "Mac", win: "Windows" };
@@ -174,10 +184,6 @@ function pasos(os, p) {
     <p class="note">Cierra Claude Code si estaba abierto y vuelve a abrirlo. Después:</p>
     ${cmd("claude plugin list")}
     ${expect(`Activo (<code>enabled</code>): ${P.on.map(esc).join(", ")}, siempre que estén instalados en este ordenador.`)}`);
-  s.push(`<h3>Preparar cada proyecto (opcional)</h3>
-    <p class="note">Copia las instrucciones del perfil en la raíz del proyecto donde vayas a usar Claude Code. Cambia la ruta final por la de tu proyecto. Si el proyecto ya tiene <code>.claude/CLAUDE.md</code>, no lo sobrescribas: añade el contenido al final.</p>
-    ${cmd(mac ? `cp -R ~/Diseno/perfiles/${p}/.claude ~/RUTA/DEL/PROYECTO/`
-      : `Copy-Item -Recurse -Force $HOME\\Diseno\\perfiles\\${p}\\.claude C:\\RUTA\\DEL\\PROYECTO\\`)}`);
   s.push(`<h3>App de Claude (escritorio o web)</h3>
     <p class="note">En la app, los plugins son de la cuenta y los compartís todos. Crea un Proyecto llamado <b>«Perfil ${esc(P.nombre)}»</b> y pega en sus instrucciones el contenido de <code>perfiles/${p}/.claude/CLAUDE.md</code>. Trabaja siempre dentro de ese Proyecto.</p>
     <p class="note">Conectores de este perfil: ${esc(P.conectores)}.</p>`);
@@ -203,10 +209,57 @@ function problemas(os) {
   return lista.map(([q, a]) => `<details><summary>${q}</summary><div><p>${a}</p></div></details>`).join("");
 }
 
-const st = { os: "mac", perfil: "diseno" };
+const TIPOS = {
+  "wordpress": { nombre: "WordPress", activa: "WordPress Dev Skills y su dependencia, solo en este proyecto (~11.300 tokens que no se gastan en el resto de proyectos)", instr: "Betheme/WPBakery con wp-betheme-wpbakery, tema hijo, confirmar antes de tocar producción" },
+  "diseno-grafico": { nombre: "Diseño gráfico", activa: "Ningún plugin extra", instr: "mejorar-prompt-imagen antes de generar, revision-diseno antes de entregar, enlaces exactos de Figma y Canva" },
+  "automatizacion": { nombre: "Automatización n8n", activa: "Ningún plugin extra (usa el conector n8n de la cuenta)", instr: "probar con datos de ejemplo, nunca publicar ni activar un flujo sin confirmar, credenciales en n8n" },
+  "backend": { nombre: "Backend", activa: "Reglas de código de ECC (common, PHP, Perl, web) en el proyecto", instr: "cambios con test, migraciones reversibles, sin credenciales en el código" }
+};
+
+function proyecto(os) {
+  const mac = os === "mac";
+  const tipos = st.tipos.length ? st.tipos : ["wordpress"];
+  const s = [];
+  s.push(`<h3>Ir a la carpeta del proyecto</h3>
+    <p class="note">Escribe <code>cd</code> y un espacio, <b>arrastra la carpeta del proyecto</b> a la ventana de ${mac ? "Terminal" : "PowerShell"} y pulsa Enter. No uses la carpeta <code>Diseno</code>: esa es la de los perfiles.</p>
+    ${cmd("cd ")}
+    ${expect(mac ? "La línea termina con el nombre de la carpeta del proyecto." : "La línea muestra la ruta del proyecto, por ejemplo <code>PS C:\\Users\\USUARIO\\Proyectos\\web-cliente&gt;</code>.")}`);
+  s.push(`<h3>Preparar el proyecto</h3>
+    <p class="note">Un comando por tipo elegido. Se pueden repetir sin problema, y combinar tipos en el mismo proyecto.</p>
+    ${tipos.map(t => cmd(mac ? `bash ~/Diseno/perfiles/preparar-proyecto.sh ${t}`
+      : `powershell -ExecutionPolicy Bypass -File $HOME\\Diseno\\perfiles\\preparar-proyecto.ps1 -Tipo ${t}`)).join("")}
+    ${expect(`<code>Proyecto preparado para '…'</code> por cada tipo. ${tipos.includes("wordpress") ? "En WordPress, la primera vez en cada ordenador también puede salir <code>instalado wordpress-official-agent-skills</code>." : ""}`)}
+    ${ifnot("Si sale <code>Eso es el repositorio de perfiles</code>, vuelve al paso anterior: estás en la carpeta equivocada.")}`);
+  s.push(`<h3>Trabajar</h3>
+    ${cmd("claude")}
+    <p class="note">Abre Claude Code siempre desde la carpeta del proyecto. Si el proyecto usa git, sube la carpeta <code>.claude</code> para que el resto del equipo tenga lo mismo sin repetir este paso.</p>`);
+  return s.map(h => `<li class="step">${h}</li>`).join("");
+}
+
+function renderProyecto() {
+  const el = document.getElementById("tipos");
+  el.innerHTML = Object.entries(TIPOS).map(([k, v]) =>
+    `<button type="button" data-k="${k}" aria-pressed="${st.tipos.includes(k)}">${esc(v.nombre)}</button>`).join("");
+  el.onclick = e => {
+    const b = e.target.closest("button"); if (!b) return;
+    const k = b.dataset.k;
+    st.tipos = st.tipos.includes(k) ? st.tipos.filter(x => x !== k) : [...st.tipos, k];
+    render();
+  };
+  const elegidos = st.tipos.length ? st.tipos : ["wordpress"];
+  document.getElementById("tipo-info").innerHTML = `<div class="table-wrap"><table>
+    <tr><th>Tipo</th><th>Activa en el proyecto</th><th>Instrucciones que añade</th></tr>
+    ${elegidos.map(t => `<tr><td><b>${esc(TIPOS[t].nombre)}</b></td><td>${esc(TIPOS[t].activa)}</td><td>${esc(TIPOS[t].instr)}</td></tr>`).join("")}
+  </table></div>`;
+  document.getElementById("psteps").innerHTML = proyecto(st.os);
+}
+
+const st = { os: "mac", perfil: "diseno", tipos: ["wordpress"] };
 try { Object.assign(st, JSON.parse(localStorage.getItem("guia-instalacion") || "{}")); } catch (e) {}
 if (!SISTEMAS[st.os]) st.os = "mac";
 if (!PERFILES[st.perfil]) st.perfil = "diseno";
+if (!Array.isArray(st.tipos)) st.tipos = ["wordpress"];
+st.tipos = st.tipos.filter(t => TIPOS[t]);
 
 function botones(el, opciones, clave) {
   el.innerHTML = Object.entries(opciones).map(([k, v]) =>
@@ -224,6 +277,7 @@ function render() {
   document.getElementById("off").innerHTML = P.off.map(x => `<span class="chip off">${esc(x)}</span>`).join("");
   document.getElementById("steps").innerHTML = pasos(st.os, st.perfil);
   document.getElementById("problemas").innerHTML = problemas(st.os);
+  renderProyecto();
 }
 
 document.addEventListener("click", e => {

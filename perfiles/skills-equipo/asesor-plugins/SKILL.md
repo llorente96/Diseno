@@ -18,6 +18,7 @@ Las decisiones se toman con datos, no de memoria: el catálogo y los perfiles ca
    - Si da acceso a cuentas o datos de clientes, avisa.
 5. **Responde con una tabla:** Candidato · Qué aporta · Tokens por sesión · Solapa con · Perfil · Veredicto (Añadir / Probar / Descartar). Máximo 5 filas.
 6. **Si se acepta un cambio:**
+   - Decide el nivel: si el plugin solo sirve para un tipo de proyecto (como WordPress Dev Skills), añádelo al `enabledPlugins` de `perfiles/trabajos/<tipo>/.claude/settings.json` y a la lista OFF de los perfiles. Si se usa a diario, va en el perfil.
    - Edita las listas ON/OFF del perfil en `perfiles/perfiles.json` (las usan los scripts de Mac y de Windows).
    - Si el plugin declara dependencias (`dependencies` en su `plugin.json`), añade cada una a `perfiles/dependencias.json` con su origen (`usuario/repo` del marketplace), tras revisarla.
    - Actualiza `perfiles/ESQUEMA.md` y `perfiles/guia-equipo.html`.

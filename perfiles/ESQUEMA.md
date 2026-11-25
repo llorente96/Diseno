@@ -23,9 +23,15 @@ bash perfiles/instalar-mesa.sh <perfil>
 
 `<perfil>` = `diseno` · `ingenieria` · `director-creativo`. Reinicia Claude Code al acabar.
 
-## 3. Cada proyecto
+## 3. Cada proyecto: tipo de trabajo
 
-Copia `perfiles/<perfil>/.claude/` a la raíz del proyecto.
+Desde la carpeta del proyecto (`cd` + arrastrar la carpeta):
+
+```bash
+bash ~/Diseno/perfiles/preparar-proyecto.sh wordpress
+```
+
+Tipos: `wordpress` · `diseno-grafico` · `automatizacion` · `backend` (combinables). Windows: `preparar-proyecto.ps1 -Tipo wordpress`.
 
 ## Qué queda activo
 
@@ -37,7 +43,7 @@ Copia `perfiles/<perfil>/.claude/` a la raíz del proyecto.
 | Marketing | ❌ | ❌ | ✅ |
 | Ponytail | ❌ | ✅ | ❌ (se activa en temporadas con mucho código) |
 | ECC | ❌ | Selección de 17 skills (se instalan solas) | ❌ |
-| WordPress Dev Skills | ✅ | ✅ | ✅ |
+| WordPress Dev Skills | Solo en proyectos WordPress | Solo en proyectos WordPress | Solo en proyectos WordPress |
 | Claude api | ❌ | ✅ | ❌ |
 | Superpowers, Taste, Sales, HR | ❌ | ❌ | ❌ |
 
