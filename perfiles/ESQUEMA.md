@@ -14,8 +14,10 @@ git clone https://github.com/llorente96/Diseno.git
 cd Diseno
 git checkout claude/upbeat-einstein-sa9u96
 bash perfiles/aplicar-perfil.sh <perfil> --dry-run
-bash perfiles/aplicar-perfil.sh <perfil>
+bash perfiles/instalar-mesa.sh <perfil>
 ```
+
+`instalar-mesa.sh` aplica el perfil y deja la mesa actualizándose sola: los cambios que se suban al repo llegan al abrir Claude Code (como mucho una vez al día).
 
 `<perfil>` = `diseno` · `ingenieria` · `director-creativo`. Reinicia Claude Code al acabar.
 
@@ -50,6 +52,7 @@ Copia `perfiles/<perfil>/.claude/` a la raíz del proyecto.
 | `mejorar-prompt-imagen` | Antes de generar en Higgsfield o Magnific |
 | `revision-diseno` | Revisar antes de entregar (tabla de máximo 10 puntos) |
 | `wp-betheme-wpbakery` | Pasar un diseño a Betheme o WPBakery |
+| `asesor-plugins` | Buscar en el catálogo (~3.800 plugins), medir tokens y proponer cambios de perfil |
 
 ## 6 reglas para gastar menos tokens
 
@@ -59,3 +62,9 @@ Copia `perfiles/<perfil>/.claude/` a la raíz del proyecto.
 4. Nombra la skill: "usa revision-diseno con…".
 5. Sonnet para el día a día; Opus solo para lo complejo (`/model`).
 6. Mejora el prompt antes de generar imagen o vídeo y confirma el coste.
+
+## Buscar plugins sin gastar tokens
+
+```bash
+bash perfiles/buscar-plugins.sh wordpress woocommerce
+```
