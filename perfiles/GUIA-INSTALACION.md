@@ -29,7 +29,7 @@ Tiempo aproximado: 10–15 minutos por mesa.
 | Ponytail | ❌ | ✅ | ❌ (se puede activar a mano) |
 | Claude api | ❌ | ✅ | ❌ |
 | Superpowers, Taste, ECC completo, Sales, HR, social-media-skills | ❌ | ❌ | ❌ |
-| Adobe (plugin) | sin tocar | ❌ | sin tocar |
+| Adobe, Canva, image-generation (plugins) | solo en proyectos de diseño gráfico | solo en proyectos de diseño gráfico | solo en proyectos de diseño gráfico |
 
 Además, en todos los perfiles se copian 4 skills del equipo: `mejorar-prompt-imagen`, `revision-diseno`, `wp-betheme-wpbakery` y `asesor-plugins`.
 

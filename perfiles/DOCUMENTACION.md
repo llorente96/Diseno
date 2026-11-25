@@ -1,6 +1,6 @@
 # Perfiles de Claude del estudio: documentación
 
-Estado a 25-11-2026. Rama `claude/upbeat-einstein-sa9u96` del repositorio `llorente96/Diseno`.
+Estado a 25-11-2026 (actualizado tras añadir los tipos de trabajo). Rama `claude/upbeat-einstein-sa9u96` del repositorio `llorente96/Diseno`.
 
 ## 1. El problema
 
@@ -60,7 +60,7 @@ Los tipos se combinan (p. ej. `wordpress` + `diseno-grafico` en la web de un cli
 | Claude api | ❌ | ✅ | ❌ |
 | ECC | ❌ | Selección de 17 skills, instaladas en el ordenador al aplicar el perfil | ❌ |
 | Superpowers, Taste, Sales, HR, social-media-skills | ❌ | ❌ | ❌ |
-| Adobe (plugin) | – | ❌ | – |
+| Adobe, Canva, image-generation (plugins) | Solo en proyectos de diseño gráfico | Solo en proyectos de diseño gráfico | Solo en proyectos de diseño gráfico |
 
 Decisiones y motivos:
 - **Impeccable** para todos: trae comandos de revisión y pulido (`critique`, `audit`, `polish`).
@@ -154,7 +154,7 @@ En cada mesa:
 | Fase | Resultado |
 |---|---|
 | Sintaxis bash (`bash -n`) | OK |
-| Tests (`tests/test-scripts.sh`) | 31/31 pasan: simulación, aplicación real, perfil inválido, `claude` fuera del PATH, hook sin duplicados y sin borrar ajustes, actualización con y sin cambios, límite diario, `ver-mesa`, coherencia de `perfiles.json`, `.ps1` en ASCII, aviso de plugins que siguen apagados, instalación de dependencias aprobadas y bloqueo de las no aprobadas |
+| Tests (`tests/test-scripts.sh`) | 51/51 pasan: perfiles, tipos de trabajo por proyecto (plugins solo en el proyecto, combinación de tipos, reglas de backend, instalación de plugins aprobados), instrucciones del perfil en `~/.claude/CLAUDE.md`, simulación, aplicación real, perfil inválido, `claude` fuera del PATH, hook sin duplicados y sin borrar ajustes, actualización con y sin cambios, límite diario, `ver-mesa`, coherencia de `perfiles.json`, `.ps1` en ASCII, aviso de plugins que siguen apagados, instalación de dependencias aprobadas y bloqueo de las no aprobadas |
 | Búsqueda de claves | Ninguna en scripts ni JSON |
 | PowerShell | **Sin probar** (no hay PowerShell en este entorno). Validado en la mesa de Rubén: `aplicar-perfil.ps1 -Simular` funciona |
 | Aplicado en el Claude Code de esta sesión (perfil Ingeniería) | OK. La dependencia de WordPress Dev Skills no se pudo instalar aquí (el entorno bloquea plugins de terceros); en las mesas la instala el script |

@@ -44,6 +44,10 @@ powershell -ExecutionPolicy Bypass -File $HOME\Diseno\perfiles\instalar-mesa.ps1
 
 **5. Reiniciar Claude Code.** A partir de aquí, los cambios de perfil que se suban al repositorio llegan solos (como mucho una vez al día).
 
+## Cada proyecto: tipo de trabajo
+
+Una vez por proyecto, desde su carpeta (`cd` + arrastrar la carpeta a la ventana): ver `GUIA-INSTALACION.md`, punto 6, o la sección «Cada proyecto» de `guia-instalacion.html`.
+
 ## Ver la configuración de la mesa
 ```powershell
 powershell -ExecutionPolicy Bypass -File $HOME\Diseno\perfiles\ver-mesa.ps1 > $HOME\Desktop\mesa.txt; notepad $HOME\Desktop\mesa.txt

@@ -31,6 +31,10 @@ bash perfiles/instalar-mesa.sh diseno
 
 **5. Reiniciar Claude Code.** A partir de aquí, los cambios de perfil que se suban al repositorio llegan solos (como mucho una vez al día).
 
+## Cada proyecto: tipo de trabajo
+
+Una vez por proyecto, desde su carpeta (`cd` + arrastrar la carpeta a la ventana): ver `GUIA-INSTALACION.md`, punto 6, o la sección «Cada proyecto» de `guia-instalacion.html`.
+
 ## Ver la configuración de la mesa
 ```bash
 bash ~/Diseno/perfiles/ver-mesa.sh > ~/Desktop/mesa.txt && open ~/Desktop/mesa.txt
