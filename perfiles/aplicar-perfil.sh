@@ -10,13 +10,13 @@ DIR="$(cd "$(dirname "$0")" && pwd)"
 
 case "$PERFIL" in
   diseno)
-    ON="design figma impeccable wordpress-dev-skills document-skills pdf-viewer"
+    ON="design figma impeccable wp-dev-skills document-skills pdf-viewer"
     OFF="ecc ponytail superpowers taste-skill claude-api marketing sales human-resources social-media-skills wordpress-devkit" ;;
   ingenieria)
-    ON="design figma impeccable ponytail wordpress-dev-skills claude-api document-skills pdf-viewer"
+    ON="design figma impeccable ponytail wp-dev-skills claude-api document-skills pdf-viewer"
     OFF="ecc superpowers taste-skill marketing sales human-resources social-media-skills" ;;
   director-creativo)
-    ON="design figma impeccable wordpress-dev-skills marketing document-skills pdf-viewer"
+    ON="design figma impeccable wp-dev-skills marketing document-skills pdf-viewer"
     OFF="ecc ponytail superpowers taste-skill claude-api sales human-resources social-media-skills wordpress-devkit" ;;
   *) echo "Uso: $0 diseno|ingenieria|director-creativo [--dry-run]"; exit 1 ;;
 esac

@@ -68,3 +68,9 @@ Copia `perfiles/<perfil>/.claude/` a la raíz del proyecto.
 ```bash
 bash perfiles/buscar-plugins.sh wordpress woocommerce
 ```
+
+## Ver la configuración de una mesa
+
+```bash
+bash perfiles/ver-mesa.sh > mesa.txt
+```

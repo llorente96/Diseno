@@ -29,6 +29,14 @@ bash perfiles/instalar-mesa.sh <perfil>
 
 **Resultado: cualquier cambio de perfil subido al repo llega solo a todas las mesas.**
 
+## Ver la configuración de una mesa
+
+```bash
+bash perfiles/ver-mesa.sh > mesa.txt
+```
+
+Muestra el perfil guardado, los plugins activos con su coste en tokens, los hooks, las skills y los conectores. No muestra claves.
+
 ## Para cambiar un perfil
 
 1. Usa la skill `asesor-plugins`: busca en el catálogo, mide tokens y propone.
@@ -37,6 +45,6 @@ bash perfiles/instalar-mesa.sh <perfil>
 
 ## Pendiente
 
-- El nombre real de **WordPress Dev Skills** en `claude plugin list`. Actualízalo en `aplicar-perfil.sh` (ahora pone `wordpress-dev-skills`).
+- Confirmar que **WordPress Dev Skills** se llama `wp-dev-skills` en `claude plugin list` (así lo usa ahora `aplicar-perfil.sh`).
 - Reconectar **html.to.design** en la cuenta.
 - Al reaplicar un perfil, Ponytail vuelve a apagarse en la mesa de Rubén si lo había encendido a mano.
