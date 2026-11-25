@@ -31,7 +31,7 @@ Copia `perfiles/<perfil>/.claude/` a la raíz del proyecto.
 | Skills del equipo | ✅ | ✅ | ✅ |
 | Document skills, PDF Viewer | ✅ | ✅ | ✅ |
 | Marketing | ❌ | ❌ | ✅ |
-| Ponytail | ❌ | ✅ | ❌ |
+| Ponytail | ❌ | ✅ | ❌ (se activa en temporadas con mucho código) |
 | ECC | ❌ | Selección de 17 skills (carpeta) | ❌ |
 | WordPress Dev Skills | ✅ | ✅ | ✅ |
 | Claude api | ❌ | ✅ | ❌ |
