@@ -8,18 +8,11 @@ set -euo pipefail
 PERFIL="${1:-}"; DRY="${2:-}"
 DIR="$(cd "$(dirname "$0")" && pwd)"
 
-case "$PERFIL" in
-  diseno)
-    ON="design figma impeccable wp-dev-skills document-skills pdf-viewer"
-    OFF="ecc ponytail superpowers taste-skill claude-api marketing sales human-resources social-media-skills wordpress-devkit" ;;
-  ingenieria)
-    ON="design figma impeccable ponytail wp-dev-skills claude-api document-skills pdf-viewer"
-    OFF="ecc superpowers taste-skill marketing sales human-resources social-media-skills" ;;
-  director-creativo)
-    ON="design figma impeccable wp-dev-skills marketing document-skills pdf-viewer"
-    OFF="ecc ponytail superpowers taste-skill claude-api sales human-resources social-media-skills wordpress-devkit" ;;
-  *) echo "Uso: $0 diseno|ingenieria|director-creativo [--dry-run]"; exit 1 ;;
-esac
+# Listas ON/OFF de cada perfil: perfiles.json (las comparten Mac y Windows).
+python3 -c 'import json,sys; sys.exit(0 if sys.argv[2] in json.load(open(sys.argv[1])) else 1)' "$DIR/perfiles.json" "$PERFIL" 2>/dev/null \
+  || { echo "Uso: $0 diseno|ingenieria|director-creativo [--dry-run]"; exit 1; }
+ON="$(python3 -c 'import json,sys; print(" ".join(json.load(open(sys.argv[1]))[sys.argv[2]]["on"]))' "$DIR/perfiles.json" "$PERFIL")"
+OFF="$(python3 -c 'import json,sys; print(" ".join(json.load(open(sys.argv[1]))[sys.argv[2]]["off"]))' "$DIR/perfiles.json" "$PERFIL")"
 
 command -v claude >/dev/null || { echo "No encuentro el comando 'claude'. Instala Claude Code primero."; exit 1; }
 

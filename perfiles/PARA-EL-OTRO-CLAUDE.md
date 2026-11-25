@@ -15,6 +15,8 @@ Pega esto en Claude Code (cuenta de empresa), dentro de la carpeta `Diseno`:
 
 ## Configurar una mesa (una sola vez por ordenador)
 
+Pasos completos: `perfiles/MAC.md` y `perfiles/WINDOWS.md` (mesa de Rubén: Windows). Resumen para Mac:
+
 ```bash
 git clone https://github.com/llorente96/Diseno.git
 cd Diseno && git checkout claude/upbeat-einstein-sa9u96
@@ -40,7 +42,7 @@ Muestra el perfil guardado, los plugins activos con su coste en tokens, los hook
 ## Para cambiar un perfil
 
 1. Usa la skill `asesor-plugins`: busca en el catálogo, mide tokens y propone.
-2. Edita las listas ON/OFF de `perfiles/aplicar-perfil.sh`, más `ESQUEMA.md` y `guia-equipo.html`.
+2. Edita las listas ON/OFF de `perfiles/perfiles.json`, más `ESQUEMA.md` y `guia-equipo.html`.
 3. Haz commit y push a `claude/upbeat-einstein-sa9u96`. Las mesas lo aplican al abrir Claude Code.
 
 ## Pendiente

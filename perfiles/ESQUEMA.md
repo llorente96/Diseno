@@ -7,7 +7,9 @@ Ninguno de estos pasos gasta tokens: son comandos de terminal y ajustes manuales
 - Reconectar **html.to.design** (la sesión expiró).
 - Se pueden desactivar para todos: **Sales**, **Human Resources**, **Taste skill**.
 
-## 2. Cada ordenador (terminal, una vez)
+## 2. Cada ordenador (una vez)
+
+Pasos detallados: **Mac** → `perfiles/MAC.md` · **Windows** → `perfiles/WINDOWS.md`. Resumen para Mac:
 
 ```bash
 git clone https://github.com/llorente96/Diseno.git

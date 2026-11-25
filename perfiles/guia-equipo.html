@@ -117,8 +117,11 @@ pre{margin:0;font:13px/1.55 var(--mono);background:var(--bg);border:1px solid va
   <section aria-labelledby="inst-h">
     <h2 id="inst-h">Comandos de instalación en Claude Code</h2>
     <div class="grid2">
-      <div class="box"><h3>1. Configurar la mesa (una sola vez)</h3><pre>bash perfiles/aplicar-perfil.sh diseno --dry-run
-bash perfiles/instalar-mesa.sh diseno</pre><p class="note">Cambia <code>diseno</code> por <code>ingenieria</code> o <code>director-creativo</code>. La primera línea solo muestra lo que haría. La segunda aplica el perfil en ese ordenador, copia las skills del equipo y deja la mesa actualizándose sola: los cambios que se suban al repositorio llegan al abrir Claude Code, como mucho una vez al día.</p></div>
+      <div class="box"><h3>1a. Configurar una mesa Mac</h3><pre>bash perfiles/aplicar-perfil.sh diseno --dry-run
+bash perfiles/instalar-mesa.sh diseno</pre><p class="note">En Terminal, dentro de la carpeta <code>Diseno</code>. Pasos completos en <code>perfiles/MAC.md</code>.</p></div>
+      <div class="box"><h3>1b. Configurar una mesa Windows</h3><pre>powershell -ExecutionPolicy Bypass -File perfiles\aplicar-perfil.ps1 -Perfil diseno -Simular
+powershell -ExecutionPolicy Bypass -File perfiles\instalar-mesa.ps1 -Perfil diseno</pre><p class="note">En PowerShell, dentro de la carpeta <code>Diseno</code>. Pasos completos en <code>perfiles/WINDOWS.md</code>.</p></div>
+      <div class="box" style="grid-column:1/-1"><p class="note">En los dos sistemas: cambia <code>diseno</code> por <code>ingenieria</code> o <code>director-creativo</code>. La primera línea solo muestra lo que haría. La segunda aplica el perfil en ese ordenador, copia las skills del equipo y deja la mesa actualizándose sola: los cambios que se suban al repositorio llegan al abrir Claude Code, como mucho una vez al día.</p></div>
       <div class="box"><h3>2. Perfil del proyecto</h3><p class="note">Copia la carpeta <code>.claude/</code> de tu perfil (<code>perfiles/diseno</code>, <code>ingenieria</code> o <code>director-creativo</code>) a la raíz de cada proyecto.</p></div>
       <div class="box"><h3>En el chat de claude.ai</h3><p class="note">Ahí los plugins son de la cuenta y los ve todo el mundo. Cread un Proyecto por perfil y pegad en sus instrucciones el <code>CLAUDE.md</code> del perfil.</p></div>
       <div class="box"><h3>Buscar plugins nuevos</h3><pre>bash perfiles/buscar-plugins.sh wordpress woocommerce</pre><p class="note">Busca en el catálogo completo (unos 3.800 plugins) sin gastar tokens. Para decidir, pide a Claude: "usa asesor-plugins: ¿hay algo mejor para X?". Mide tokens, compara con lo que ya tenéis y propone cambios en los perfiles.</p></div>

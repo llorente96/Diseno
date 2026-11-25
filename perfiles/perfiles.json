@@ -1,0 +1,14 @@
+{
+  "diseno": {
+    "on":  ["design", "figma", "impeccable", "wp-dev-skills", "document-skills", "pdf-viewer"],
+    "off": ["ecc", "ponytail", "superpowers", "taste-skill", "claude-api", "marketing", "sales", "human-resources", "social-media-skills", "wordpress-devkit"]
+  },
+  "ingenieria": {
+    "on":  ["design", "figma", "impeccable", "ponytail", "wp-dev-skills", "claude-api", "document-skills", "pdf-viewer"],
+    "off": ["ecc", "superpowers", "taste-skill", "marketing", "sales", "human-resources", "social-media-skills"]
+  },
+  "director-creativo": {
+    "on":  ["design", "figma", "impeccable", "wp-dev-skills", "marketing", "document-skills", "pdf-viewer"],
+    "off": ["ecc", "ponytail", "superpowers", "taste-skill", "claude-api", "sales", "human-resources", "social-media-skills", "wordpress-devkit"]
+  }
+}
