@@ -1,0 +1,7 @@
+{
+  "enabledPlugins": {
+    "adobe@anthropic-plugin-directory": true,
+    "canva@anthropic-plugin-directory": true,
+    "image-generation@anthropic-plugin-directory": true
+  }
+}

@@ -42,7 +42,7 @@ Estado a 25-11-2026. Rama `claude/upbeat-einstein-sa9u96` del repositorio `llore
 | Tipo | Activa en el proyecto | Instrucciones |
 |---|---|---|
 | `wordpress` | WordPress Dev Skills + `wordpress-official-agent-skills` | Betheme/WPBakery, tema hijo, confirmar antes de tocar producción |
-| `diseno-grafico` | – | `mejorar-prompt-imagen`, `revision-diseno`, enlaces exactos |
+| `diseno-grafico` | Adobe, Canva e image-generation (directorio oficial de Anthropic) | `mejorar-prompt-imagen`, `revision-diseno`, enlaces exactos |
 | `automatizacion` | – | n8n: probar con datos de ejemplo, no activar sin confirmar |
 | `backend` | Reglas de ECC en `.claude/rules` | Tests, migraciones reversibles, sin credenciales |
 
@@ -79,7 +79,7 @@ Conectores (de la cuenta, compartidos): Canva, Figma, Adobe, Magnific, Higgsfiel
 | `perfiles.json` | **Única fuente** de qué lleva cada perfil |
 | `trabajos/<tipo>/.claude/` | Kit de cada tipo de trabajo (instrucciones, plugins del proyecto, reglas) |
 | `preparar-proyecto.sh` / `.ps1` | Aplica uno o varios tipos de trabajo a un proyecto |
-| `dependencias.json` | Dependencias aprobadas que los scripts instalan solos si faltan (hoy: la de WordPress Dev Skills) |
+| `dependencias.json` | Dependencias aprobadas que los scripts instalan solos si faltan (hoy: la dependencia de WordPress Dev Skills y los plugins de diseño gráfico: Adobe, Canva, image-generation) |
 | `aplicar-perfil.sh` / `.ps1` | Aplica un perfil en ese ordenador (Mac / Windows) |
 | `instalar-mesa.sh` / `.ps1` | Configura una mesa una vez: perfil, skills y hook de actualización |
 | `actualizar-perfil.sh` / `.ps1` | Lo ejecuta el hook: una vez al día, `git pull` y reaplica si cambió algo |

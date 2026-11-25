@@ -1,3 +1,6 @@
 {
-  "wordpress-official-agent-skills@wordpress-official-agent-skills": "mralaminahamed/wordpress-official-agent-skills"
+  "wordpress-official-agent-skills@wordpress-official-agent-skills": "mralaminahamed/wordpress-official-agent-skills",
+  "adobe@anthropic-plugin-directory": "anthropic-plugin-directory",
+  "canva@anthropic-plugin-directory": "anthropic-plugin-directory",
+  "image-generation@anthropic-plugin-directory": "anthropic-plugin-directory"
 }

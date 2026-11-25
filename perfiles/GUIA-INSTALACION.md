@@ -185,7 +185,7 @@ El perfil dice quién eres; el tipo de trabajo dice qué proyecto es. Una vez po
 | Tipo | Activa solo en ese proyecto |
 |---|---|
 | `wordpress` | WordPress Dev Skills y su dependencia, más instrucciones de Betheme/WPBakery |
-| `diseno-grafico` | Instrucciones de imagen, vídeo y revisión |
+| `diseno-grafico` | Skills de Adobe, Canva e image-generation, más instrucciones de imagen, vídeo y revisión |
 | `automatizacion` | Instrucciones de n8n |
 | `backend` | Reglas de código de ECC |
 

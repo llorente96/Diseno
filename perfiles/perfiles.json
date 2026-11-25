@@ -19,7 +19,10 @@
       "social-media-skills",
       "wordpress-devkit",
       "wp-dev-skills",
-      "wordpress-official-agent-skills"
+      "wordpress-official-agent-skills",
+      "adobe",
+      "canva",
+      "image-generation"
     ]
   },
   "ingenieria": {
@@ -42,7 +45,10 @@
       "social-media-skills",
       "adobe-for-creativity",
       "wp-dev-skills",
-      "wordpress-official-agent-skills"
+      "wordpress-official-agent-skills",
+      "adobe",
+      "canva",
+      "image-generation"
     ]
   },
   "director-creativo": {
@@ -65,7 +71,10 @@
       "social-media-skills",
       "wordpress-devkit",
       "wp-dev-skills",
-      "wordpress-official-agent-skills"
+      "wordpress-official-agent-skills",
+      "adobe",
+      "canva",
+      "image-generation"
     ]
   }
 }

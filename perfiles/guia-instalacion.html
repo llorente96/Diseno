@@ -211,7 +211,7 @@ function problemas(os) {
 
 const TIPOS = {
   "wordpress": { nombre: "WordPress", activa: "WordPress Dev Skills y su dependencia, solo en este proyecto (~11.300 tokens que no se gastan en el resto de proyectos)", instr: "Betheme/WPBakery con wp-betheme-wpbakery, tema hijo, confirmar antes de tocar producción" },
-  "diseno-grafico": { nombre: "Diseño gráfico", activa: "Ningún plugin extra", instr: "mejorar-prompt-imagen antes de generar, revision-diseno antes de entregar, enlaces exactos de Figma y Canva" },
+  "diseno-grafico": { nombre: "Diseño gráfico", activa: "Skills de diseño: Adobe (retoque, recortes, fondos, variaciones para redes, lotes), Canva (brand-check, adaptar a redes, editar) e image-generation (prompts por modelo). Adobe pesa ~6.000 tokens: solo se gastan aquí", instr: "mejorar-prompt-imagen antes de generar, revision-diseno antes de entregar, enlaces exactos de Figma y Canva" },
   "automatizacion": { nombre: "Automatización n8n", activa: "Ningún plugin extra (usa el conector n8n de la cuenta)", instr: "probar con datos de ejemplo, nunca publicar ni activar un flujo sin confirmar, credenciales en n8n" },
   "backend": { nombre: "Backend", activa: "Reglas de código de ECC (common, PHP, Perl, web) en el proyecto", instr: "cambios con test, migraciones reversibles, sin credenciales en el código" }
 };
@@ -228,7 +228,7 @@ function proyecto(os) {
     <p class="note">Un comando por tipo elegido. Se pueden repetir sin problema, y combinar tipos en el mismo proyecto.</p>
     ${tipos.map(t => cmd(mac ? `bash ~/Diseno/perfiles/preparar-proyecto.sh ${t}`
       : `powershell -ExecutionPolicy Bypass -File $HOME\\Diseno\\perfiles\\preparar-proyecto.ps1 -Tipo ${t}`)).join("")}
-    ${expect(`<code>Proyecto preparado para '…'</code> por cada tipo. ${tipos.includes("wordpress") ? "En WordPress, la primera vez en cada ordenador también puede salir <code>instalado wordpress-official-agent-skills</code>." : ""}`)}
+    ${expect(`<code>Proyecto preparado para '…'</code> por cada tipo. ${tipos.some(t => t === "wordpress" || t === "diseno-grafico") ? "La primera vez en cada ordenador también saldrá <code>instalado …</code> por cada plugin del tipo: es normal, quedan activos solo en los proyectos que los piden." : ""}`)}
     ${ifnot("Si sale <code>Eso es el repositorio de perfiles</code>, vuelve al paso anterior: estás en la carpeta equivocada.")}`);
   s.push(`<h3>Trabajar</h3>
     ${cmd("claude")}

@@ -152,6 +152,8 @@ check "instala la dependencia aprobada que falta" 'grep -q "install wordpress-of
 check "y la deja apagada fuera del proyecto" 'grep -q "disable wordpress-official-agent-skills@wordpress-official-agent-skills --scope user" "$CALLS"'
 PROY2="$TMP/proyecto-api"; mkdir -p "$PROY2"
 bash "$PERFILES/preparar-proyecto.sh" backend "$PROY2" >/dev/null
+check "diseño gráfico activa Adobe y Canva en el proyecto" 'grep -q "adobe@anthropic-plugin-directory" "$J" && grep -q "canva@anthropic-plugin-directory" "$J"'
+check "instala Canva si falta y lo deja apagado fuera" 'grep -q "install canva@anthropic-plugin-directory --scope user" "$CALLS" && grep -q "disable canva@anthropic-plugin-directory --scope user" "$CALLS"'
 check "backend copia las reglas de ECC" '[ -f "$PROY2/.claude/rules/ecc/php/security.md" ]'
 bash "$PERFILES/preparar-proyecto.sh" jardineria "$PROY2" >/dev/null 2>&1; RC=$?
 check "tipo inválido da error" '[ $RC -ne 0 ]'
