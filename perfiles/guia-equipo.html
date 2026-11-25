@@ -1,0 +1,265 @@
+<title>Perfiles Claude del Estudio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: cabecera compacta, base común, pestañas por perfil, consejos de tokens al final */
+:root{
+  --bg:#f6f7fb; --surface:#ffffff; --fg:#161a2b; --muted:#5b6178; --line:#e1e4ee;
+  --accent:#3550e0; --accent-soft:#e8ecfd; --ok:#1f8a5b; --warn:#b4541a; --no:#a3324a;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#10131f; --surface:#171b2b; --fg:#e8eaf3; --muted:#9aa0b8; --line:#2a3046;
+  --accent:#8fa2ff; --accent-soft:#232a4a; --ok:#5fd19c; --warn:#f0a36b; --no:#f08aa0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10131f; --surface:#171b2b; --fg:#e8eaf3; --muted:#9aa0b8; --line:#2a3046;
+  --accent:#8fa2ff; --accent-soft:#232a4a; --ok:#5fd19c; --warn:#f0a36b; --no:#f08aa0; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--body)}
+.wrap{max-width:1040px;margin:0 auto;padding-block:40px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:40px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,5vw,46px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:24px;font-weight:700}
+h3{font-size:17px;font-weight:600}
+p{margin:0}
+.lead{color:var(--muted);max-width:62ch;margin-top:10px}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+code,.mono{font-family:var(--mono);font-size:.88em}
+code{background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+section{display:grid;gap:16px}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:620px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px/1.3 var(--body);text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+.chip{display:inline-block;font:500 12px/1 var(--body);padding:5px 9px;border-radius:999px;white-space:nowrap}
+.chip.si{background:color-mix(in srgb,var(--ok) 15%,transparent);color:var(--ok)}
+.chip.parcial{background:color-mix(in srgb,var(--warn) 15%,transparent);color:var(--warn)}
+.chip.no{background:color-mix(in srgb,var(--no) 14%,transparent);color:var(--no)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{font:600 14px/1 var(--body);padding:11px 16px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.tab:focus-visible,.check input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tab small{display:block;font:400 12px/1.2 var(--body);margin-top:4px;opacity:.8}
+.panel{display:grid;gap:24px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+@media (max-width:760px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:12px;min-width:0}
+.progress{font:500 13px/1 var(--mono);color:var(--muted)}
+.check{display:flex;gap:10px;align-items:flex-start}
+.check input{margin-top:4px;accent-color:var(--accent);width:16px;height:16px;flex:none}
+.check label{cursor:pointer}
+.check input:checked + label{color:var(--muted);text-decoration:line-through}
+ul.plain{margin:0;padding-left:18px;display:grid;gap:6px}
+.flows{display:grid;gap:10px}
+.flow{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+@media (max-width:640px){.flow{grid-template-columns:minmax(0,1fr);gap:6px}}
+.flow .task{font-weight:600}
+.flow .use{color:var(--muted);font-size:13.5px}
+.prompt{display:flex;gap:8px;align-items:flex-start;margin-top:6px}
+.prompt q{flex:1;min-width:0;font-family:var(--mono);font-size:13px;quotes:none;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px}
+.copy{font:500 12px/1 var(--body);padding:8px 10px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;flex:none}
+.copy:hover{border-color:var(--accent)}
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.tip{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:6px}
+.tip b{font-family:var(--display);font-size:16px}
+.note{font-size:13.5px;color:var(--muted)}
+pre{margin:0;font:13px/1.55 var(--mono);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px 12px;overflow-x:auto}
+@media (prefers-reduced-motion:no-preference){.tab,.copy{transition:background .15s,border-color .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Equipo de diseño · 5 personas · 3 perfiles</div>
+    <h1 style="margin-top:10px">Perfiles Claude del Estudio</h1>
+    <p class="lead">Qué instalar, qué no y cómo pedir cada tarea, según tu perfil. Activa solo lo de tu perfil: cada plugin y conector que sobra se paga en tokens en cada mensaje.</p>
+  </header>
+
+  <section aria-labelledby="base-h">
+    <h2 id="base-h">Base común</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Pieza</th><th>Diseño</th><th>Ingeniería</th><th>Dirección</th><th>Motivo</th></tr></thead>
+        <tbody>
+          <tr><td><b>Impeccable</b></td><td><span class="chip si">Sí</span></td><td><span class="chip si">Sí</span></td><td><span class="chip si">Sí</span></td><td>Comandos para revisar y pulir diseño: <code>critique</code>, <code>audit</code>, <code>polish</code>, <code>bolder</code>, <code>quieter</code>.</td></tr>
+          <tr><td><b>Skills del equipo</b></td><td><span class="chip si">Sí</span></td><td><span class="chip si">Sí</span></td><td><span class="chip si">Sí</span></td><td><code>mejorar-prompt-imagen</code>, <code>revision-diseno</code>, <code>wp-betheme-wpbakery</code>.</td></tr>
+          <tr><td><b>Ponytail</b></td><td><span class="chip no">No</span></td><td><span class="chip si">Sí</span></td><td><span class="chip no">No</span></td><td>Reduce el código que se escribe, no los tokens de diseño, y añade instrucciones al inicio de cada sesión.</td></tr>
+          <tr><td><b>ECC (selección)</b></td><td><span class="chip no">No</span></td><td><span class="chip si">Sí</span></td><td><span class="chip no">No</span></td><td>17 skills de backend (Perl, Laravel, API, MySQL, seguridad, TDD). Solo texto, sin hooks.</td></tr>
+          <tr><td><b>Taste Skill</b></td><td><span class="chip no">No</span></td><td><span class="chip no">No</span></td><td><span class="chip no">No</span></td><td>Genera webs completas desde cero con scripts de Node y Chrome. No encaja con maquetar en Betheme o WPBakery.</td></tr>
+          <tr><td><b>Superpowers</b></td><td><span class="chip no">No</span></td><td><span class="chip no">No</span></td><td><span class="chip no">No</span></td><td>Obliga a planificar antes de cada respuesta. Choca con Ponytail y se solapa con ECC.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="perfiles-h">
+    <h2 id="perfiles-h">Tu perfil</h2>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div id="panel" class="panel" role="tabpanel"></div>
+  </section>
+
+  <section aria-labelledby="tok-h">
+    <h2 id="tok-h">Gastar menos tokens</h2>
+    <div class="tips">
+      <div class="tip"><b>Solo tu perfil activo</b><p class="note">Cada skill activa añade su descripción a cada mensaje, y cada conector sus herramientas. Pasar de 200 skills a 20 es el mayor ahorro.</p></div>
+      <div class="tip"><b>Una tarea, una conversación</b><p class="note">Escribe <code>/clear</code> al cambiar de tarea. Una conversación larga reenvía todo el historial en cada mensaje.</p></div>
+      <div class="tip"><b>Enlace exacto</b><p class="note">Pega el frame de Figma con <code>node-id</code> o el enlace de Canva. "Busca mi diseño" obliga a Claude a explorar.</p></div>
+      <div class="tip"><b>Nombra la skill</b><p class="note">"Usa revision-diseno con…" evita que Claude pruebe varias skills hasta dar con la buena.</p></div>
+      <div class="tip"><b>Captura antes que contexto</b><p class="note">Para revisar algo visual basta una captura. El contexto completo de Figma solo hace falta para maquetar.</p></div>
+      <div class="tip"><b>Modelo según la tarea</b><p class="note">Sonnet para el día a día. Opus solo para lo complejo: arquitectura, auditorías, flujos largos. Cámbialo con <code>/model</code>.</p></div>
+      <div class="tip"><b>Prompt antes de generar</b><p class="note">Pasa el prompt por <code>mejorar-prompt-imagen</code> y estima el coste antes de generar en Higgsfield. Una buena generación ahorra cinco malas.</p></div>
+      <div class="tip"><b>CLAUDE.md corto</b><p class="note">El archivo del proyecto se lee siempre. Diez líneas útiles valen más que dos páginas.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="inst-h">
+    <h2 id="inst-h">Comandos de instalación en Claude Code</h2>
+    <div class="grid2">
+      <div class="box"><h3>Impeccable (todos)</h3><pre>/plugin marketplace add pbakaus/impeccable</pre><p class="note">Después abre <code>/plugin</code> e instala Impeccable. Los diseñadores pueden rechazar el "design hook" que ofrece el instalador.</p></div>
+      <div class="box"><h3>Ponytail (solo Ingeniería)</h3><pre>/plugin marketplace add DietrichGebert/ponytail
+/plugin install ponytail@ponytail</pre></div>
+      <div class="box"><h3>Skills del equipo</h3><p class="note">Están en la carpeta <code>perfiles/skills-equipo/</code> del repositorio. En Claude Code, cópialas a <code>~/.claude/skills/</code>. En claude.ai, súbelas comprimidas en <code>.zip</code> en el apartado de Skills.</p></div>
+      <div class="box"><h3>Perfil del proyecto</h3><p class="note">Copia la carpeta <code>.claude/</code> de tu perfil (<code>perfiles/diseno</code>, <code>ingenieria</code> o <code>direccion</code>) a la raíz de cada proyecto.</p></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const PERFILES = {
+  diseno: {
+    nombre: "Diseño", quien: "3 diseñadores",
+    resumen: "Adobe, Canva, Figma, imagen y vídeo con IA, y maquetación en Betheme / WPBakery.",
+    instalar: [
+      "Plugins: design, canva, Adobe, figma, frontend-design",
+      "Impeccable",
+      "Skills del equipo: mejorar-prompt-imagen, revision-diseno, wp-betheme-wpbakery",
+      "Conectores: Canva, Figma, Adobe, Higgsfield, Google Drive",
+      "Copiar perfiles/diseno/.claude a cada proyecto",
+      "Desactivar todo lo demás (social-media-skills, marketing, superpowers, ponytail…)"
+    ],
+    noInstalar: ["Ponytail", "Superpowers", "ECC", "social-media-skills", "marketing", "wordpress-devkit"],
+    nota: "Magnific no aparece en el directorio de conectores. Para escalar imágenes, usa el upscale de Higgsfield o de Adobe, o Magnific en su web.",
+    flujos: [
+      ["Prompt para imagen", "mejorar-prompt-imagen → Higgsfield", "Usa mejorar-prompt-imagen: foto de producto de una lámpara de cerámica para banner web 16:9, estilo luz natural"],
+      ["Ajustar una imagen", "Adobe (recorte, fondo, ampliar, retoque) o upscale de Higgsfield", "Quita el fondo de esta foto, amplíala a 2000 px de ancho y déjala en WebP"],
+      ["Revisar antes de entregar", "revision-diseno", "Usa revision-diseno con este frame: [enlace de Figma con node-id]"],
+      ["Variantes para redes", "canva:resize-for-social-media o Adobe social variations", "Crea las versiones 1:1, 4:5 y 9:16 de este diseño de Canva: [enlace]"],
+      ["Pasar a WordPress", "wp-betheme-wpbakery", "Usa wp-betheme-wpbakery: pasa la sección hero de [enlace] a WPBakery"],
+      ["Pulir una web", "Impeccable", "Haz un critique de esta página y luego un polish de lo que salga"],
+      ["Vídeo corto", "Higgsfield (generar) o Adobe quick cut (editar)", "Usa mejorar-prompt-imagen para un vídeo de 6 s, 9:16, cámara lenta sobre el producto; dime el coste antes de generar"]
+    ]
+  },
+  ingenieria: {
+    nombre: "Ingeniería", quien: "Diseño + backend + n8n",
+    resumen: "Todo lo de Diseño menos Adobe, más backend (Perl, Laravel, PHP/WordPress) y automatizaciones n8n.",
+    instalar: [
+      "Plugins: design, canva, figma, frontend-design, wordpress-devkit",
+      "Plugin Samautomation Workflows (n8n)",
+      "Impeccable + skills del equipo",
+      "Ponytail",
+      "Copiar perfiles/ingenieria/.claude (selección de ECC) a cada proyecto de backend",
+      "Conectores: Canva, Figma, Higgsfield, Google Drive, n8n, GitHub"
+    ],
+    noInstalar: ["Adobe", "Superpowers", "social-media-skills", "marketing"],
+    nota: "ECC y Ponytail conviven: ECC aporta reglas y skills de backend; Ponytail mantiene los cambios mínimos.",
+    flujos: [
+      ["Flujo n8n nuevo", "Samautomation Workflows + conector n8n", "Crea un flujo n8n: cuando llega un formulario de WordPress, guarda el lead en Google Sheets y avisa por email. Comprueba el JSON antes de importarlo"],
+      ["Backend Laravel", "ECC: laravel-patterns, laravel-tdd", "Usa laravel-tdd para añadir un endpoint que devuelva los proyectos del cliente, con test"],
+      ["Script Perl", "ECC: perl-patterns, perl-testing", "Usa perl-patterns: revisa este script y propón el cambio mínimo para que procese CSV con cabeceras"],
+      ["Plugin de WordPress", "wordpress-devkit", "Usa wordpress-devkit:plugin-scaffold para un plugin que añada un shortcode de testimonios"],
+      ["Auditoría de seguridad", "wordpress-devkit:security-audit o ECC security-review", "Audita la seguridad de este plugin antes de subirlo a producción"],
+      ["Arreglo rápido", "Ponytail", "Corrige este error con el cambio más pequeño posible: [error]"]
+    ]
+  },
+  direccion: {
+    nombre: "Dirección creativa", quien: "Rubén",
+    resumen: "Todo lo de Diseño, más estrategia, marketing, métricas, presentaciones y revisión del trabajo del equipo. Sin backend profundo.",
+    instalar: [
+      "Plugins: design, canva, Adobe, figma, frontend-design, marketing",
+      "social-media-skills solo si lleva redes (unas 105 skills: aumenta el consumo)",
+      "Impeccable + skills del equipo",
+      "Conectores: Canva, Figma, Adobe, Higgsfield, Google Drive, Gmail, Google Calendar, Supermetrics",
+      "Copiar perfiles/direccion/.claude a cada proyecto"
+    ],
+    noInstalar: ["Ponytail", "Superpowers", "ECC", "wordpress-devkit"],
+    nota: "Si una tarea necesita backend o un flujo n8n, se anota para el perfil de Ingeniería.",
+    flujos: [
+      ["Revisar trabajo del equipo", "revision-diseno", "Usa revision-diseno con estos 3 diseños y dame una tabla priorizada por pieza"],
+      ["Presentación para cliente", "Slides de Claude o pptx", "Prepara una presentación de 8 diapositivas con la propuesta de rediseño web de [cliente]"],
+      ["Plan de campaña", "marketing:campaign-plan", "Usa campaign-plan para el lanzamiento de la nueva colección: objetivos, canales y calendario de 4 semanas"],
+      ["Informe de resultados", "Supermetrics + marketing:performance-report", "Saca el rendimiento de Meta Ads del último mes y prepara un informe para el cliente"],
+      ["Moodboard o dirección de arte", "Adobe Firefly Boards o Higgsfield", "Crea un moodboard de 9 imágenes para una marca de café de especialidad, tono cálido y minimalista"],
+      ["Brief para el equipo", "Docs de Claude", "Escribe un brief de diseño para la landing de [cliente], con objetivos, público, tono y entregables"]
+    ]
+  }
+};
+
+const tabsEl = document.getElementById("tabs");
+const panelEl = document.getElementById("panel");
+const store = {
+  get(k){ try { return JSON.parse(localStorage.getItem(k) || "null"); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+const esc = s => s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function render(id){
+  const p = PERFILES[id];
+  [...tabsEl.children].forEach(b => b.setAttribute("aria-selected", String(b.dataset.id === id)));
+  const hechos = store.get("check-" + id) || [];
+  panelEl.setAttribute("aria-labelledby", "tab-" + id);
+  panelEl.innerHTML = `
+    <p class="lead" style="margin:0">${esc(p.resumen)}</p>
+    <div class="grid2">
+      <div class="box">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap">
+          <h3>Instalar</h3><span class="progress" id="prog"></span>
+        </div>
+        ${p.instalar.map((t,i)=>`<div class="check"><input type="checkbox" id="c-${id}-${i}" data-i="${i}" ${hechos.includes(i)?"checked":""}><label for="c-${id}-${i}">${esc(t)}</label></div>`).join("")}
+      </div>
+      <div class="box">
+        <h3>No instalar</h3>
+        <ul class="plain">${p.noInstalar.map(t=>`<li>${esc(t)}</li>`).join("")}</ul>
+        <p class="note">${esc(p.nota)}</p>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:10px">Tareas habituales y cómo pedirlas</h3>
+      <div class="flows">
+        ${p.flujos.map(([t,u,pr],i)=>`<div class="flow"><div><div class="task">${esc(t)}</div><div class="use">${esc(u)}</div></div><div class="prompt"><q id="p-${id}-${i}">${esc(pr)}</q><button class="copy" type="button" data-target="p-${id}-${i}">Copiar</button></div></div>`).join("")}
+      </div>
+    </div>`;
+  const prog = () => {
+    const n = panelEl.querySelectorAll(".check input:checked").length;
+    document.getElementById("prog").textContent = `${n} / ${p.instalar.length} hechos`;
+  };
+  prog();
+  panelEl.querySelectorAll(".check input").forEach(cb => cb.addEventListener("change", () => {
+    const sel = [...panelEl.querySelectorAll(".check input:checked")].map(x => +x.dataset.i);
+    store.set("check-" + id, sel); prog();
+  }));
+}
+
+panelEl.addEventListener("click", e => {
+  const btn = e.target.closest(".copy"); if (!btn) return;
+  const el = document.getElementById(btn.dataset.target);
+  const done = () => { btn.textContent = "Copiado"; setTimeout(()=>btn.textContent="Copiar", 1500); };
+  navigator.clipboard.writeText(el.textContent).then(done).catch(() => {
+    const r = document.createRange(); r.selectNodeContents(el);
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+    btn.textContent = "Seleccionado";
+  });
+});
+
+Object.entries(PERFILES).forEach(([id,p]) => {
+  const b = document.createElement("button");
+  b.className = "tab"; b.type = "button"; b.role = "tab"; b.id = "tab-" + id; b.dataset.id = id;
+  b.innerHTML = `${esc(p.nombre)}<small>${esc(p.quien)}</small>`;
+  b.addEventListener("click", () => { history.replaceState(null, "", "#" + id); render(id); });
+  tabsEl.appendChild(b);
+});
+const desdeHash = () => PERFILES[location.hash.slice(1)] ? location.hash.slice(1) : "diseno";
+window.addEventListener("hashchange", () => render(desdeHash()));
+render(desdeHash());
+</script>
