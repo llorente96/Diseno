@@ -45,7 +45,7 @@ Copia `perfiles/<perfil>/.claude/` a la raíz del proyecto.
 
 - **Diseño:** Canva, Figma, Adobe, Magnific, Higgsfield, Drive, html.to.design
 - **Ingeniería:** Canva, Figma, Magnific, Higgsfield, n8n, GitHub, servidores MCP locales de WordPress
-- **Director creativo:** Canva, Figma, Adobe, Magnific, Higgsfield, Drive, Klaviyo, Slack
+- **Director creativo:** Canva, Figma, Adobe, Magnific, Higgsfield, Drive
 
 ## Skills del equipo
 

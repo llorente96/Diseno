@@ -56,7 +56,7 @@ Decisiones y motivos:
 - **ECC completo fuera** (328 skills). En su lugar, una selección de 17 skills de backend (Perl, Laravel, API, MySQL, seguridad, TDD), solo Markdown, que se copia por proyecto.
 - **Marketing para Rubén**: ~870 tokens por sesión a cambio de `brand-review`, `seo-audit`, `campaign-plan` y `email-sequence`.
 
-Conectores (de la cuenta, compartidos): Canva, Figma, Adobe, Magnific, Higgsfield, Google Drive, n8n, GitHub, Klaviyo, Slack, html.to.design (sesión caducada: reconectar) y los servidores MCP locales de WordPress.
+Conectores (de la cuenta, compartidos): Canva, Figma, Adobe, Magnific, Higgsfield, Google Drive, n8n, GitHub, html.to.design (sesión caducada: reconectar) y los servidores MCP locales de WordPress.
 
 ## 4. Archivos
 
@@ -118,7 +118,7 @@ En cada mesa:
 2. **Mesa de Rubén (Windows):** añadir `.local\bin` al PATH, reiniciar PowerShell y ejecutar `instalar-mesa.ps1 -Perfil director-creativo`.
 3. **Reconectar html.to.design** en la cuenta.
 4. **Probar `instalar-mesa.ps1` y el hook en Windows**: no se han podido probar fuera de una mesa real.
-5. Decidir si Productivity y Slack (plugin) se quedan; ahora el script no los toca.
+5. Decidir si Productivity y Slack (plugin) se quedan; ahora el script no los toca. Nadie usa Klaviyo ni Slack: sus conectores pueden quedarse sin autorizar.
 
 ## 8. Seguridad
 

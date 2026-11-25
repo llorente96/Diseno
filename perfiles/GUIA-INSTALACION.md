@@ -207,7 +207,6 @@ En la app, los plugins y conectores son de la cuenta y los compartís los cinco.
 | Adobe, Google Drive | ✅ | – | ✅ |
 | html.to.design (reconectar: la sesión caducó) | ✅ | – | – |
 | n8n, GitHub, servidores MCP locales de WordPress | – | ✅ | – |
-| Klaviyo, Slack | – | – | ✅ |
 
 ---
 
