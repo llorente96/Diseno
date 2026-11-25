@@ -33,7 +33,8 @@ Copia `perfiles/<perfil>/.claude/` a la raíz del proyecto.
 | Marketing | ❌ | ❌ | ✅ |
 | Ponytail | ❌ | ✅ | ❌ |
 | ECC | ❌ | Selección de 17 skills (carpeta) | ❌ |
-| WordPress Dev Skills, Claude api | ❌ | ✅ | ❌ |
+| WordPress Dev Skills | ✅ | ✅ | ✅ |
+| Claude api | ❌ | ✅ | ❌ |
 | Superpowers, Taste, Sales, HR | ❌ | ❌ | ❌ |
 
 ## Conectores por perfil

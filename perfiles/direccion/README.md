@@ -6,4 +6,4 @@
 
 **Conectores:** Canva, Figma, Adobe, Magnific, Higgsfield, Google Drive, Gmail, Google Calendar, Supermetrics
 
-**No instalar:** Ponytail, Superpowers, ECC, `wordpress-devkit`
+**No instalar:** Ponytail, Superpowers, ECC
