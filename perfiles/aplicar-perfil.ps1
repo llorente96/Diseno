@@ -60,4 +60,10 @@ $skills = Join-Path $HOME '.claude\skills'
 New-Item -ItemType Directory -Force -Path $skills | Out-Null
 Copy-Item (Join-Path $PSScriptRoot 'skills-equipo\*') $skills -Recurse -Force
 Write-Host '  OK skills del equipo copiadas a .claude\skills'
+# Skills propias del perfil (p. ej. la seleccion de ECC en ingenieria\.claude\skills)
+$propias = Join-Path $PSScriptRoot "$Perfil\.claude\skills"
+if (Test-Path $propias) {
+  Copy-Item (Join-Path $propias '*') $skills -Recurse -Force
+  Write-Host "  OK skills del perfil copiadas ($(@(Get-ChildItem $propias -Directory).Count))"
+}
 Write-Host "Perfil '$Perfil' aplicado. Reinicia Claude Code."

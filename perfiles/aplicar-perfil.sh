@@ -74,6 +74,11 @@ if [ "$DRY" != "--dry-run" ]; then
   mkdir -p "$HOME/.claude/skills"
   cp -R "$DIR/skills-equipo/"* "$HOME/.claude/skills/"
   echo "  ✓ skills del equipo copiadas a ~/.claude/skills"
+  # Skills propias del perfil (p. ej. la selección de ECC en ingenieria/.claude/skills)
+  if [ -d "$DIR/$PERFIL/.claude/skills" ]; then
+    cp -R "$DIR/$PERFIL/.claude/skills/"* "$HOME/.claude/skills/"
+    echo "  ✓ skills del perfil copiadas ($(ls "$DIR/$PERFIL/.claude/skills" | wc -l | tr -d ' '))"
+  fi
 fi
 
 echo

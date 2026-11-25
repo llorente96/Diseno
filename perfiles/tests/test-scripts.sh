@@ -61,6 +61,13 @@ check "desactiva marketing"      'grep -q "disable marketing@synced --scope user
 check "activa wp-dev-skills"     'grep -q "enable wp-dev-skills@synced --scope user" "$CALLS"'
 check "copia skills del equipo"  '[ -f "$HOME/.claude/skills/revision-diseno/SKILL.md" ]'
 
+echo "2b. Ingeniería instala la selección de ECC"
+nuevo_home 2b
+bash "$PERFILES/aplicar-perfil.sh" ingenieria >/dev/null
+check "laravel-tdd instalada"    '[ -f "$HOME/.claude/skills/laravel-tdd/SKILL.md" ]'
+check "perl-patterns instalada"  '[ -f "$HOME/.claude/skills/perl-patterns/SKILL.md" ]'
+check "17 skills de ECC + 4 del equipo" '[ "$(ls "$HOME/.claude/skills" | wc -l | tr -d " ")" = 21 ]'
+
 echo "3. Perfil inválido"
 nuevo_home 3
 bash "$PERFILES/aplicar-perfil.sh" jefe >/dev/null 2>&1; RC=$?
