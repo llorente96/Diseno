@@ -71,7 +71,8 @@ Conectores (de la cuenta, compartidos): Canva, Figma, Adobe, Magnific, Higgsfiel
 | `buscar-plugins.sh` | Busca en el catálogo completo (~3.800 plugins) sin gastar tokens |
 | `skills-equipo/` | `mejorar-prompt-imagen`, `revision-diseno`, `wp-betheme-wpbakery`, `asesor-plugins` |
 | `diseno/`, `ingenieria/`, `director-creativo/` | `.claude/` para copiar en cada proyecto, más un README |
-| `MAC.md`, `WINDOWS.md` | Pasos de instalación por sistema |
+| `guia-instalacion.html` | **Guía de instalación interactiva** (elige sistema y perfil) |
+| `GUIA-INSTALACION.md`, `MAC.md`, `WINDOWS.md` | Pasos de instalación en texto |
 | `ESQUEMA.md` | Resumen de una página |
 | `PARA-EL-OTRO-CLAUDE.md` | Traspaso para el Claude de la cuenta de empresa |
 | `guia-equipo.html` | Guía visual para el equipo |
@@ -106,7 +107,10 @@ En cada mesa:
 | `curl … \| bash`: bash no se reconoce | Es el instalador de Mac/Linux | En Windows: `irm https://claude.ai/install.ps1 \| iex` |
 | WordPress Dev Skills sigue desactivado tras activarlo | Depende de `wordpress-official-agent-skills`, que no estaba instalado | **Automático**: el script instala la dependencia porque está aprobada en `dependencias.json`. Si un plugin pide otra no aprobada, solo avisa |
 | Windows: el script se corta a mitad sin motivo claro | Con `ErrorActionPreference = Stop`, PowerShell 5.1 trata cualquier aviso de `claude` como error | `aplicar-perfil.ps1` usa `Continue` |
-| `cd Diseno`: no existe | Ya estabas dentro de `Diseno` | Ignorarlo |
+| `cd Diseno`: no existe | Ya estabas dentro de `Diseno` | Ignorarlo. La guía ya no usa `cd` |
+| `PERFIL` copiado tal cual → `Uso: …` | Faltaba sustituir el marcador | La guía HTML rellena el perfil sola |
+| `No such file or directory: instalar-mesa.sh` | Repositorio desactualizado | Paso «Descargar o actualizar»: un solo comando que actualiza si ya existe |
+| `no se pudo: enable X` en plugins ya activos | Activar algo ya activo falla en plugins instalados en el ordenador | El script ahora los salta (`= X ya estaba como debe`) y muestra el error real si lo hay |
 
 ## 7. Pendientes
 
@@ -134,7 +138,7 @@ En cada mesa:
 | Fase | Resultado |
 |---|---|
 | Sintaxis bash (`bash -n`) | OK |
-| Tests (`tests/test-scripts.sh`) | 30/30 pasan: simulación, aplicación real, perfil inválido, `claude` fuera del PATH, hook sin duplicados y sin borrar ajustes, actualización con y sin cambios, límite diario, `ver-mesa`, coherencia de `perfiles.json`, `.ps1` en ASCII, aviso de plugins que siguen apagados, instalación de dependencias aprobadas y bloqueo de las no aprobadas |
+| Tests (`tests/test-scripts.sh`) | 31/31 pasan: simulación, aplicación real, perfil inválido, `claude` fuera del PATH, hook sin duplicados y sin borrar ajustes, actualización con y sin cambios, límite diario, `ver-mesa`, coherencia de `perfiles.json`, `.ps1` en ASCII, aviso de plugins que siguen apagados, instalación de dependencias aprobadas y bloqueo de las no aprobadas |
 | Búsqueda de claves | Ninguna en scripts ni JSON |
 | PowerShell | **Sin probar** (no hay PowerShell en este entorno). Validado en la mesa de Rubén: `aplicar-perfil.ps1 -Simular` funciona |
 | Aplicado en el Claude Code de esta sesión (perfil Ingeniería) | OK. La dependencia de WordPress Dev Skills no se pudo instalar aquí (el entorno bloquea plugins de terceros); en las mesas la instala el script |

@@ -1,5 +1,7 @@
 # Guía de instalación de perfiles de Claude (de principio a fin)
 
+> **Versión recomendada: `guia-instalacion.html`.** Eliges sistema y perfil, y los comandos salen ya rellenos. Esta versión en texto queda como referencia.
+
 Sirve para cualquier mesa del equipo, en Mac o Windows. Se hace **una sola vez por ordenador**; después, los cambios de perfil llegan solos.
 
 Tiempo aproximado: 10–15 minutos por mesa.
@@ -86,25 +88,17 @@ Si no existe:
 
 Solo la primera vez en cada ordenador.
 
+Un solo comando: si la carpeta no existe la descarga, y si existe la actualiza.
+
 **Mac**
 ```bash
-git clone https://github.com/llorente96/Diseno.git ~/Diseno
-```
-```bash
-git -C ~/Diseno checkout claude/upbeat-einstein-sa9u96
+if [ -d ~/Diseno ]; then git -C ~/Diseno pull; else git clone -b claude/upbeat-einstein-sa9u96 https://github.com/llorente96/Diseno.git ~/Diseno; fi
 ```
 
 **Windows**
 ```powershell
-git clone https://github.com/llorente96/Diseno.git $HOME\Diseno
+if (Test-Path $HOME\Diseno) { git -C $HOME\Diseno pull } else { git clone -b claude/upbeat-einstein-sa9u96 https://github.com/llorente96/Diseno.git $HOME\Diseno }
 ```
-```powershell
-git -C $HOME\Diseno checkout claude/upbeat-einstein-sa9u96
-```
-
-Si la carpeta ya existe, basta con actualizarla:
-- Mac: `git -C ~/Diseno pull`
-- Windows: `git -C $HOME\Diseno pull`
 
 ---
 
@@ -129,6 +123,7 @@ Qué significa cada línea:
 | `[simulacion] enable X` | Lo activará |
 | `[simulacion] disable X` | Lo desactivará |
 | `[simulacion] instalar dependencia X` | Instalará algo que necesita un plugin del perfil (solo si está aprobado) |
+| `= X ya estaba como debe` | No hace falta tocarlo |
 | `X: no esta instalado en este equipo` | Normal: ese plugin no está en el Claude Code de este ordenador |
 | `Simulacion terminada: no se ha cambiado nada.` | Fin |
 

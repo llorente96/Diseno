@@ -1,6 +1,6 @@
 # Perfiles de Claude del equipo
 
-**Instalar una mesa: [`GUIA-INSTALACION.md`](GUIA-INSTALACION.md)** · Documentación completa: [`DOCUMENTACION.md`](DOCUMENTACION.md) · Pasos: [`MAC.md`](MAC.md) / [`WINDOWS.md`](WINDOWS.md) · Resumen: [`ESQUEMA.md`](ESQUEMA.md)
+**Instalar una mesa: `guia-instalacion.html`** (o [`GUIA-INSTALACION.md`](GUIA-INSTALACION.md)) · Documentación completa: [`DOCUMENTACION.md`](DOCUMENTACION.md) · Pasos: [`MAC.md`](MAC.md) / [`WINDOWS.md`](WINDOWS.md) · Resumen: [`ESQUEMA.md`](ESQUEMA.md)
 
 | Perfil | Quién | Carpeta |
 |---|---|---|

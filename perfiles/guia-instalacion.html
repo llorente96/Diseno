@@ -1,0 +1,239 @@
+<title>Instalar perfil Claude</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: selector fijo de sistema y perfil arriba; pasos numerados (es una secuencia real); problemas al final */
+:root{
+  --bg:#f5f6fa; --surface:#ffffff; --fg:#151a2c; --muted:#5a6079; --line:#dfe3ee;
+  --accent:#3550e0; --accent-soft:#e7ebfd; --code-bg:#0f1426; --code-fg:#e6e9f5;
+  --ok:#1d8656; --ok-soft:#e3f4ec; --warn:#a85512; --warn-soft:#fbeee2;
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --body:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1220; --surface:#171b2c; --fg:#e7e9f3; --muted:#9aa0b8; --line:#283049;
+  --accent:#8fa2ff; --accent-soft:#222a4a; --code-bg:#0a0d18; --code-fg:#e6e9f5;
+  --ok:#5fd19c; --ok-soft:#173528; --warn:#f0a36b; --warn-soft:#3a2716; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1220; --surface:#171b2c; --fg:#e7e9f3; --muted:#9aa0b8; --line:#283049;
+  --accent:#8fa2ff; --accent-soft:#222a4a; --code-bg:#0a0d18; --code-fg:#e6e9f5;
+  --ok:#5fd19c; --ok-soft:#173528; --warn:#f0a36b; --warn-soft:#3a2716; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:15px/1.6 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:860px;margin:0 auto;padding-block:32px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
+h1,h2,h3{font-family:var(--display);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(28px,5vw,40px);font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:15px;font-weight:600;font-family:var(--body)}
+p{margin:0}
+.lead{color:var(--muted);max-width:62ch;margin-top:8px}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+code{font-family:var(--mono);font-size:.88em;background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+
+/* Selector */
+.picker{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:12px;box-shadow:0 6px 20px -14px rgb(0 0 0 / .35)}
+.picker-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.picker-row > span{font:600 12px/1 var(--body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);min-width:64px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{font:600 14px/1 var(--body);padding:10px 14px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.seg button:focus-visible,.copy:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Resumen del perfil */
+.summary{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+@media (max-width:640px){.summary{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px;min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 12.5px/1 var(--body);padding:6px 9px;border-radius:999px}
+.chip.on{background:var(--ok-soft);color:var(--ok)}
+.chip.off{background:var(--warn-soft);color:var(--warn)}
+
+/* Pasos */
+ol.steps{list-style:none;margin:0;padding:0;display:grid;gap:14px;counter-reset:paso}
+.step{counter-increment:paso;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;display:grid;gap:12px;grid-template-columns:36px minmax(0,1fr);column-gap:14px}
+.step::before{content:counter(paso);grid-row:1 / span 20;width:32px;height:32px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font:700 15px/32px var(--display);text-align:center}
+.step > *{grid-column:2}
+.note{font-size:14px;color:var(--muted)}
+.cmd{display:flex;align-items:stretch;background:var(--code-bg);border-radius:8px;overflow:hidden;min-width:0}
+.cmd pre{margin:0;flex:1;min-width:0;padding:11px 12px;color:var(--code-fg);font:13px/1.5 var(--mono);overflow-x:auto;white-space:pre}
+.copy{flex:none;border:0;border-left:1px solid rgb(255 255 255 / .12);background:transparent;color:var(--code-fg);font:600 12px/1 var(--body);padding:0 14px;cursor:pointer}
+.copy:hover{background:rgb(255 255 255 / .08)}
+.expect{border-left:3px solid var(--ok);background:var(--ok-soft);padding:9px 12px;border-radius:0 8px 8px 0;font-size:14px}
+.ifnot{border-left:3px solid var(--warn);background:var(--warn-soft);padding:9px 12px;border-radius:0 8px 8px 0;font-size:14px;display:grid;gap:8px}
+.label{font:600 12px/1 var(--body);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:4px}
+.expect .label{color:var(--ok)} .ifnot .label{color:var(--warn)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+td,th{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px/1.3 var(--body);text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.table-wrap{overflow-x:auto}
+details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 16px}
+details + details{margin-top:8px}
+summary{cursor:pointer;font-weight:600}
+details > div{margin-top:10px;display:grid;gap:10px}
+@media (prefers-reduced-motion:no-preference){.seg button,.copy{transition:background .15s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Una vez por ordenador · 10–15 minutos</div>
+    <h1 style="margin-top:8px">Instalar perfil Claude</h1>
+    <p class="lead">Elige el sistema y el perfil: todos los comandos de abajo salen ya preparados. Copia cada uno con su botón, pégalo y comprueba que ves lo que indica el recuadro verde antes de pasar al siguiente.</p>
+  </header>
+
+  <div class="picker" role="group" aria-label="Sistema y perfil">
+    <div class="picker-row"><span>Sistema</span><div class="seg" id="os"></div></div>
+    <div class="picker-row"><span>Perfil</span><div class="seg" id="perfil"></div></div>
+  </div>
+
+  <section class="summary" aria-label="Qué deja activo el perfil">
+    <div class="card"><h3>Quedará activo</h3><div class="chips" id="on"></div></div>
+    <div class="card"><h3>Quedará apagado</h3><div class="chips" id="off"></div><p class="note">Lo que no aparece en ninguna lista no se toca.</p></div>
+  </section>
+
+  <section style="display:grid;gap:14px">
+    <h2>Pasos</h2>
+    <ol class="steps" id="steps"></ol>
+  </section>
+
+  <section style="display:grid;gap:10px">
+    <h2>Si algo falla</h2>
+    <div id="problemas"></div>
+  </section>
+</div>
+
+<script>
+const REPO = "https://github.com/llorente96/Diseno.git";
+const RAMA = "claude/upbeat-einstein-sa9u96";
+const PERFILES = {
+  "diseno": { nombre: "Diseño", quien: "Diseñadores",
+    on: ["Design","Figma","Impeccable","WordPress Dev Skills","Document skills","PDF Viewer"],
+    off: ["Ponytail","Superpowers","Taste","ECC","Claude api","Marketing","Sales","Human Resources","social-media-skills","wordpress-devkit"],
+    conectores: "Canva, Figma, Adobe, Magnific, Higgsfield, Google Drive y html.to.design" },
+  "ingenieria": { nombre: "Ingeniería", quien: "Backend y n8n",
+    on: ["Design","Figma","Impeccable","Ponytail","WordPress Dev Skills","Claude api","Document skills","PDF Viewer"],
+    off: ["ECC completo","Superpowers","Taste","Marketing","Sales","Human Resources","social-media-skills","Adobe (plugin)"],
+    conectores: "Canva, Figma, Magnific, Higgsfield, n8n, GitHub y los servidores MCP locales de WordPress" },
+  "director-creativo": { nombre: "Director creativo", quien: "Rubén",
+    on: ["Design","Figma","Impeccable","WordPress Dev Skills","Marketing","Document skills","PDF Viewer"],
+    off: ["Ponytail","Superpowers","Taste","ECC","Claude api","Sales","Human Resources","social-media-skills","wordpress-devkit"],
+    conectores: "Canva, Figma, Adobe, Magnific, Higgsfield, Google Drive, Klaviyo y Slack" }
+};
+const SISTEMAS = { mac: "Mac", win: "Windows" };
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let n = 0;
+const cmd = c => { const id = "c" + (n++); return `<div class="cmd"><pre id="${id}">${esc(c)}</pre><button class="copy" type="button" data-t="${id}" aria-label="Copiar comando">Copiar</button></div>`; };
+const expect = t => `<div class="expect"><span class="label">Deberías ver</span>${t}</div>`;
+const ifnot = t => `<div class="ifnot"><span class="label">Si no</span>${t}</div>`;
+
+function pasos(os, p) {
+  const mac = os === "mac";
+  const P = PERFILES[p];
+  const repo = mac ? "~/Diseno" : "$HOME\\Diseno";
+  const s = [];
+  s.push(`<h3>Abrir la terminal</h3>
+    <p class="note">${mac ? "Abre la aplicación <b>Terminal</b> (Spotlight: escribe «Terminal»)."
+      : "Abre <b>PowerShell</b> (menú Inicio: escribe «PowerShell»). La línea debe empezar por <code>PS C:\\…&gt;</code>. No hace falta abrirlo como administrador."}</p>
+    <p class="note">No uses <code>cd</code> en ningún paso: todos los comandos llevan la ruta completa y funcionan desde cualquier carpeta.</p>`);
+  s.push(`<h3>Comprobar Claude Code</h3>${cmd("claude --version")}
+    ${expect("Un número de versión, por ejemplo <code>2.1.332 (Claude Code)</code>.")}
+    ${ifnot(`<p>Instálalo:</p>${cmd(mac ? "curl -fsSL https://claude.ai/install.sh | bash" : "irm https://claude.ai/install.ps1 | iex")}
+      ${mac ? "" : `<p>Si después sigue sin reconocerse <code>claude</code>, añádelo al PATH. Después <b>cierra PowerShell, ábrelo de nuevo</b> y repite este paso:</p>${cmd("[Environment]::SetEnvironmentVariable('Path', \"$HOME\\.local\\bin;\" + [Environment]::GetEnvironmentVariable('Path','User'), 'User')")}`}`)}
+    <p class="note">Si es la primera vez en este ordenador, escribe <code>claude</code>, entra con la <b>cuenta de la empresa</b> y sal con <code>/exit</code>.</p>`);
+  s.push(`<h3>Comprobar Git${mac ? " y Python" : ""}</h3>${cmd("git --version")}${mac ? cmd("python3 --version") : ""}
+    ${expect(mac ? "Dos números de versión." : "Un número de versión, por ejemplo <code>git version 2.56.1.windows.1</code>.")}
+    ${ifnot(mac ? "<p>macOS ofrece instalar las «herramientas de línea de comandos». Acepta, espera a que termine y repite el paso.</p>"
+      : `<p>Instálalo y después cierra y vuelve a abrir PowerShell:</p>${cmd("winget install --id Git.Git -e --source winget")}`)}`);
+  s.push(`<h3>Descargar o actualizar el repositorio</h3>
+    <p class="note">Sirve igual la primera vez que las siguientes: si la carpeta ya existe, la actualiza.</p>
+    ${cmd(mac ? `if [ -d ~/Diseno ]; then git -C ~/Diseno pull; else git clone -b ${RAMA} ${REPO} ~/Diseno; fi`
+      : `if (Test-Path $HOME\\Diseno) { git -C $HOME\\Diseno pull } else { git clone -b ${RAMA} ${REPO} $HOME\\Diseno }`)}
+    ${expect("<code>Cloning into…</code> la primera vez, o <code>Already up to date</code> / <code>Fast-forward</code> si ya existía.")}
+    ${ifnot("Si pide usuario y contraseña, inicia sesión en GitHub en este ordenador. En Windows se abre el navegador.")}`);
+  s.push(`<h3>Simular (no cambia nada)</h3>
+    ${cmd(mac ? `bash ~/Diseno/perfiles/aplicar-perfil.sh ${p} --dry-run`
+      : `powershell -ExecutionPolicy Bypass -File $HOME\\Diseno\\perfiles\\aplicar-perfil.ps1 -Perfil ${p} -Simular`)}
+    ${expect("Al final, <code>Simulación terminada: no se ha cambiado nada.</code>")}
+    <div class="table-wrap"><table>
+      <tr><th>Línea</th><th>Significa</th></tr>
+      <tr><td><code>[simulación] enable / disable X</code></td><td>Lo activará / lo apagará</td></tr>
+      <tr><td><code>= X ya estaba como debe</code></td><td>No hace falta tocarlo</td></tr>
+      <tr><td><code>[simulación] instalar dependencia X</code></td><td>Instalará algo que necesita un plugin del perfil (está aprobado)</td></tr>
+      <tr><td><code>X: no está instalado en este equipo</code></td><td>Normal: ese plugin no está en el Claude Code de este ordenador</td></tr>
+    </table></div>
+    ${ifnot("Si sale <code>Uso: …</code>, el perfil está mal escrito: vuelve a copiar el comando. Para cualquier otro error, mira «Si algo falla» al final.")}`);
+  s.push(`<h3>Configurar la mesa</h3>
+    ${cmd(mac ? `bash ~/Diseno/perfiles/instalar-mesa.sh ${p}`
+      : `powershell -ExecutionPolicy Bypass -File $HOME\\Diseno\\perfiles\\instalar-mesa.ps1 -Perfil ${p}`)}
+    ${expect(`Al final, <code>Mesa configurada con el perfil '${p}'</code>. Las líneas con ${mac ? "✓" : "OK"} o <code>=</code> están bien.`)}
+    ${ifnot(`Si alguna línea dice <code>no se pudo</code> o <code>${mac ? "⚠" : "AVISO"} … sigue desactivado</code>, copia esa línea entera: incluye el motivo. Mira «Si algo falla».`)}
+    <p class="note">Desde ahora la mesa se actualiza sola: al abrir Claude Code, como mucho una vez al día, baja los cambios y reaplica el perfil si ha cambiado.</p>`);
+  s.push(`<h3>Reiniciar Claude Code y comprobar</h3>
+    <p class="note">Cierra Claude Code si estaba abierto y vuelve a abrirlo. Después:</p>
+    ${cmd("claude plugin list")}
+    ${expect(`Activo (<code>enabled</code>): ${P.on.map(esc).join(", ")}, siempre que estén instalados en este ordenador.`)}`);
+  s.push(`<h3>Preparar cada proyecto (opcional)</h3>
+    <p class="note">Copia las instrucciones del perfil en la raíz del proyecto donde vayas a usar Claude Code. Cambia la ruta final por la de tu proyecto. Si el proyecto ya tiene <code>.claude/CLAUDE.md</code>, no lo sobrescribas: añade el contenido al final.</p>
+    ${cmd(mac ? `cp -R ~/Diseno/perfiles/${p}/.claude ~/RUTA/DEL/PROYECTO/`
+      : `Copy-Item -Recurse -Force $HOME\\Diseno\\perfiles\\${p}\\.claude C:\\RUTA\\DEL\\PROYECTO\\`)}`);
+  s.push(`<h3>App de Claude (escritorio o web)</h3>
+    <p class="note">En la app, los plugins son de la cuenta y los compartís todos. Crea un Proyecto llamado <b>«Perfil ${esc(P.nombre)}»</b> y pega en sus instrucciones el contenido de <code>perfiles/${p}/.claude/CLAUDE.md</code>. Trabaja siempre dentro de ese Proyecto.</p>
+    <p class="note">Conectores de este perfil: ${esc(P.conectores)}.</p>`);
+  return s.map(h => `<li class="step">${h}</li>`).join("");
+}
+
+function problemas(os) {
+  const mac = os === "mac";
+  const lista = mac ? [
+    ["«No such file or directory» al ejecutar un script", "El repositorio de este ordenador está desactualizado. Repite el paso 4."],
+    ["«Uso: … diseno|ingenieria|director-creativo»", "El perfil está mal escrito. Vuelve a copiar el comando desde esta guía, con el perfil elegido arriba."],
+    ["«no se pudo: enable X → …»", "El texto después de la flecha es el motivo real. Si pone que ya estaba activo, ignóralo. Si es otra cosa, pásalo al equipo."],
+    ["«⚠ X sigue desactivado: Dependency … not installed»", "Falta una dependencia que no está aprobada. Pide a Claude: «usa asesor-plugins para revisar esta dependencia»."],
+    ["«no such file or directory: Diseno» al hacer cd", "Ya estabas dentro de la carpeta. Esta guía no usa cd: copia los comandos tal cual."],
+  ] : [
+    ["«claude no se reconoce»", "Paso 2: añade <code>.local\\bin</code> al PATH, cierra PowerShell y vuelve a abrirlo."],
+    ["«bash no se reconoce»", "Has usado un comando de Mac. Elige <b>Windows</b> arriba y copia de nuevo."],
+    ["«El argumento 'perfiles\\…' no existe»", "Copia los comandos de esta guía: llevan la ruta completa (<code>$HOME\\Diseno\\…</code>)."],
+    ["«Falta la cadena en el terminador»", "Versión antigua de los scripts: repite el paso 4."],
+    ["«ERROR no se pudo: enable X -> …»", "El texto después de la flecha es el motivo real. Si pone que ya estaba activo, ignóralo."],
+    ["«AVISO X sigue desactivado: Dependency … not installed»", "Falta una dependencia que no está aprobada. Pide a Claude: «usa asesor-plugins para revisar esta dependencia»."],
+  ];
+  return lista.map(([q, a]) => `<details><summary>${q}</summary><div><p>${a}</p></div></details>`).join("");
+}
+
+const st = { os: "mac", perfil: "diseno" };
+try { Object.assign(st, JSON.parse(localStorage.getItem("guia-instalacion") || "{}")); } catch (e) {}
+if (!SISTEMAS[st.os]) st.os = "mac";
+if (!PERFILES[st.perfil]) st.perfil = "diseno";
+
+function botones(el, opciones, clave) {
+  el.innerHTML = Object.entries(opciones).map(([k, v]) =>
+    `<button type="button" data-k="${k}" aria-pressed="${st[clave] === k}">${esc(typeof v === "string" ? v : v.nombre)}</button>`).join("");
+  el.onclick = e => { const b = e.target.closest("button"); if (!b) return; st[clave] = b.dataset.k; render(); };
+}
+
+function render() {
+  try { localStorage.setItem("guia-instalacion", JSON.stringify(st)); } catch (e) {}
+  n = 0;
+  botones(document.getElementById("os"), SISTEMAS, "os");
+  botones(document.getElementById("perfil"), PERFILES, "perfil");
+  const P = PERFILES[st.perfil];
+  document.getElementById("on").innerHTML = P.on.map(x => `<span class="chip on">${esc(x)}</span>`).join("");
+  document.getElementById("off").innerHTML = P.off.map(x => `<span class="chip off">${esc(x)}</span>`).join("");
+  document.getElementById("steps").innerHTML = pasos(st.os, st.perfil);
+  document.getElementById("problemas").innerHTML = problemas(st.os);
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest(".copy"); if (!b) return;
+  const el = document.getElementById(b.dataset.t);
+  const hecho = t => { b.textContent = t; setTimeout(() => b.textContent = "Copiar", 1500); };
+  navigator.clipboard.writeText(el.textContent).then(() => hecho("Copiado")).catch(() => {
+    const r = document.createRange(); r.selectNodeContents(el);
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r); hecho("Selecciona y copia");
+  });
+});
+render();
+</script>
